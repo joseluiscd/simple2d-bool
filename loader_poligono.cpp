@@ -36,7 +36,6 @@ vector<poligono2D<T> >* cargarFicheroMif(const char* fichero, int precision, T t
 				cout<<"Bordes detectados: "<<x1<<","<<y1<<" / "<<x2<<","<<y2<<endl;
 			}
 		} else { //Leer datos
-
 			if(npuntos_restantes>1){ //Tenemos puntos para seguir leyendo
 				T x,y;
 				stringstream ss(linea);

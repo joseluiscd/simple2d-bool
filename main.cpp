@@ -38,8 +38,4 @@ int main(int argc, char *argv[]){
 	vector<poligono2Dd>* mun2 = cargarFicheroMif_double("datos/municipio2.mif", 9);
 
 	list<punto2Dd> aasdfasdf = puntosDeCorte((*mun1)[0], (*mun2)[0], 9);
-
-
-
-
 }

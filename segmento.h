@@ -33,7 +33,7 @@ class paralelas: public exception {
 
 // O(1)
 template<typename T>
-T areaSignada(segmento2D<T> a, punto2D<T> c){
+T areaSignada(const segmento2D<T>& a, const punto2D<T>& c){
 	return areaSignada(a.a, a.b, c);
 }
 
@@ -58,6 +58,11 @@ SegmentoSegmento segmentoRespectoSegmento(segmento2D<T> a, segmento2D<T> b, int 
 		//O se cortan o nada
 		return signo(areaSignada(a, b.a))==-signo(areaSignada(a, b.b)) && signo(areaSignada(b, a.a))==-signo(areaSignada(b, a.b)) ? cortan : nada;
 	}
+}
+
+template<typename T>
+bool puntoEnSegmento(punto2D<T> p, segmento2D<T> s, int precision=3){
+	return signo(areaSignada(s, p))==0;
 }
 
 template<typename T>
