@@ -1,11 +1,11 @@
 OBJECTS = main.o signo.o loader_poligono.o
-HEADERS = poligono.h punto.h segmento.h triangulo.h signo.h
+HEADERS = poligono.h punto.h segmento.h triangulo.h signo.h bool_poligono.h
 
 .PHONY: test
 
 all: main
 
-test:
+test: algoritmos.dll
 	$(MAKE) -C ./test test
 
 algoritmos.dll: $(OBJECTS) $(HEADERS)

@@ -3,6 +3,7 @@
 #include "bool_poligono.h"
 #include <list>
 #include <iostream>
+#include <cstdlib>
 
 using namespace std;
 int main() {
@@ -22,9 +23,11 @@ int main() {
     poligono2Df poligono1(cuadrado1);
     poligono2Df poligono2(cuadrado2);
 
-    cout<< "UEUE!!";
+    printf("Eoooo\n");
     boolPoligono<float> i(poligono1, poligono2);
+    printf("UEUEUEUEUE!!\n");
     i.interseccion();
-
+    cout<<"Eooo!!\n";
+    cout.flush();
     return 0;
 }

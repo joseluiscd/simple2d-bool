@@ -9,12 +9,13 @@
 template<typename T>
 list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > > puntosDeCorte(const poligono2D<T>& a, const poligono2D<T>& b, int precision=3){
 	list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > > vert1;
-
 	for(auto i = a.segmentos.begin(); i!= a.segmentos.end(); i++){
 		list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > > cortes_segmento;
 		for(auto j = b.segmentos.begin(); j!=b.segmentos.end(); i++){
+			printf("Uuue\n");
 			if(segmentoRespectoSegmento(*i, *j, precision)==cortan){
 				//calculamos el punto de corte
+				printf("-------Cortan\n");
 				cortes_segmento.push_back(make_pair(puntoCorte(*i, *j), j));
 			}
 		}
