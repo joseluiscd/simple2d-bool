@@ -29,7 +29,7 @@ struct segmento2D{
 };
 
 class paralelas: public exception {
-}
+};
 
 // O(1)
 template<typename T>

@@ -1,10 +1,10 @@
-#include "punto.hpp"
-#include "triangulo.hpp"
-#include "segmento.hpp"
-#include "signo.hpp"
-#include "poligono.hpp"
-#include "loader_poligono.hpp"
-#include "bool_poligono.hpp"
+#include "punto.h"
+#include "triangulo.h"
+#include "segmento.h"
+#include "signo.h"
+#include "poligono.h"
+#include "loader_poligono.h"
+#include "bool_poligono.h"
 
 #include <algorithm>
 #include <iostream>
@@ -37,5 +37,4 @@ int main(int argc, char *argv[]){
 	vector<poligono2Dd>* mun1 = cargarFicheroMif_double("datos/municipio1.mif", 9);
 	vector<poligono2Dd>* mun2 = cargarFicheroMif_double("datos/municipio2.mif", 9);
 
-	list<punto2Dd> aasdfasdf = puntosDeCorte((*mun1)[0], (*mun2)[0], 9);
 }

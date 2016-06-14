@@ -1,4 +1,4 @@
-#include "signo.hpp"
+#include "signo.h"
 
 int signo(int a){
 	return 	a>0 ? 1 :

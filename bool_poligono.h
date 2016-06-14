@@ -4,16 +4,17 @@
 #ifndef _BOOL_POLIGONO_H
 #define _BOOL_POLIGONO_H
 
-template<typename T>
-list<pair<punto2D<T>, list<segmento2D<T> >::iterator > > puntosDeCorte(const poligono2D<T>& a, const poligono2D<T>& b, int precision=3){
-	typedef typename list<segmento2D<T> >::iterator iterador;
-	typedef typename list<pair<punto2D<T>, list<segmento2D<T> >::iterator > >::iterator iteradorp;
-	typedef typename list<pair<punto2D<T>, list<segmento2D<T> >::iterator > >::reverse_iterator riteradorp;
 
-	list<pair<punto2D<T>, list<segmento2D<T> >::iterator > > vert1;
+template<typename T>
+list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > > puntosDeCorte(const poligono2D<T>& a, const poligono2D<T>& b, int precision=3){
+	typedef typename list<segmento2D<T> >::iterator iterador;
+	typedef typename list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > >::iterator iteradorp;
+	typedef typename list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > >::reverse_iterator riteradorp;
+
+	list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > > vert1;
 
 	for(iterador i = a.segmentos.begin(); i!= a.segmentos.end(); i++){
-		list<pair<punto2D<T>, list<segmento2D<T> >::iterator > > cortes_segmento;
+		list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > > cortes_segmento;
 		for(iterador j = b.segmentos.begin(); j!=b.segmentos.end(); i++){
 			if(segmentoRespectoSegmento(*i, *j, precision)==cortan){
 				//calculamos el punto de corte
@@ -23,7 +24,7 @@ list<pair<punto2D<T>, list<segmento2D<T> >::iterator > > puntosDeCorte(const pol
 
 		if(cortes_segmento.size()>0){
 			//Los puntos, por la definición del polígono están en orden. El problema es que pueden estar al revés.
-			bool reves = distanciaCuadrado(cortes_segmento.front(), vert1.back())>distanciaCuadrado(cortes_segmento.back(), vert1.back()); //Empezamos por atrás??
+			bool reves = distanciaCuadrado(cortes_segmento.front().first, vert1.back().first)>distanciaCuadrado(cortes_segmento.back(), vert1.back()); //Empezamos por atrás??
 			if(reves){
 				for(riteradorp j=cortes_segmento.rbegin();j!=cortes_segmento.rend();j++){
 					vert1.push_back(*j);
@@ -49,12 +50,12 @@ struct nodoPoligono {
 
 	nodoPoligono(const punto2D<T>& _punto=punto2D<T>()): punto(_punto), puntosP1(), puntosP2() {};
 
-}
+};
 
 template<typename T>
 class boolPoligono {
 private:
-	list<nodoPoligono*> puntos;
+	list<nodoPoligono<T>*> puntos;
 	const poligono2D<T>& p1;
 	const poligono2D<T>& p2;
 	//Flag que indica si el polígono 2 tenemos que procesarlo al revés
@@ -62,13 +63,14 @@ private:
 
 	//Construir hasta el primer punto de corte. Este método se encarga de
 	//decidir si el polígono 2 hay que procesarlo al revés
-	void construyePrimero((list<pair<punto2D<T>, segmento2D<T> > > pdc, int precision=3);
+	void construyePrimero(list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > >& pdc, int precision=3);
+	void construyeSiguientes(list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > >& pdc, int precision=3);
 public:
 	boolPoligono(const poligono2D<T>& p1, const poligono2D<T>& p2, int precision=3);
-}
+};
 
 template<typename T>
-void construyePrimero(list<pair<punto2D<T>, segmento2D<T> > >& pdc, int precision){
+void boolPoligono<T>::construyePrimero(list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > >& pdc, int precision){
 	auto primero = pdc.front();
 	auto sigPunto = *(++pdc.begin()).first;
 
@@ -78,9 +80,9 @@ void construyePrimero(list<pair<punto2D<T>, segmento2D<T> > >& pdc, int precisio
 	y utilizaremos en sucesivas operaciones aquel sentido que se corresponda.
 	*/
 
-	nodoPoligono* sentidoNormal = new nodoPoligono(p);
-	nodoPoligono* sentidoContrario = new nodoPoligono(p);
-	nodoPoligono* definitivo = NULL; //Aún no sabemos cuál se escoge
+	nodoPoligono<T>* sentidoNormal = new nodoPoligono<T>(primero.first);
+	nodoPoligono<T>* sentidoContrario = new nodoPoligono<T>(primero.first);
+	nodoPoligono<T>* definitivo = NULL; //Aún no sabemos cuál se escoge
 
 	auto segmentoSNormal = primero.second;
 	auto segmentoSContrario = primero.second;
@@ -94,7 +96,6 @@ void construyePrimero(list<pair<punto2D<T>, segmento2D<T> > >& pdc, int precisio
 			delete sentidoContrario;
 			break;
 		} else if(puntoEnSegmento(sigPunto, *segmentoSContrario)){
-			parada = true;
 			p2c = true;
 
 			sentidoContrario.puntosP2.push_back(sigPunto);
@@ -129,7 +130,7 @@ void construyePrimero(list<pair<punto2D<T>, segmento2D<T> > >& pdc, int precisio
 }
 
 template<typename T>
-void construyeSiguientes(list<pair<punto2D<T>, segmento2D<T> > > pdc, int precision){
+void boolPoligono<T>::construyeSiguientes(list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > >& pdc, int precision){
 	//TODO: Seguir por aquí
 }
 
@@ -137,7 +138,7 @@ template<typename T>
 boolPoligono<T>::boolPoligono(const poligono2D<T>& _p1, const poligono2D<T>& _p2, int precision)
 	:p2c(false), puntos(), p1(_p1), p2(_p2)
 {
-	list<pair<punto2D<T>, segmento2D<T> > > pdc = puntosDeCorte(p1, p2, precision);
+	auto pdc = puntosDeCorte(p1, p2, precision);
 	construyePrimero(pdc, precision);
 }
 #endif
