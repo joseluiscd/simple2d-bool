@@ -31,6 +31,9 @@ struct segmento2D{
 class paralelas: public exception {
 };
 
+class nocortan: public exception {
+};
+
 // O(1)
 template<typename T>
 T areaSignada(const segmento2D<T>& a, const punto2D<T>& c){
@@ -67,10 +70,7 @@ bool puntoEnSegmento(punto2D<T> p, segmento2D<T> s, int precision=3){
 
 template<typename T>
 punto2D<T> puntoMedio(segmento2D<T> s){
-	punto2D<T> toRet;
-	toRet.x = (s.a.x + s.b.x)/2;
-	toRet.y = (s.a.y + s.b.y)/2;
-	return toRet;
+	return puntoMedio(s.a, s.b);
 }
 
 //Devuelve el punto de corte entre los 2 segmentos
@@ -91,7 +91,7 @@ punto2D<T> puntoCorte(segmento2D<T> a, segmento2D<T> b, int precision=3){
 	toRet.y = a.a.y+t*(a.b.y-a.a.y);
 
 	if((0<=s)&&(s<=1)&&(0<=t)&&(t<=1)){
-		throw int(200); // No se cortan
+		throw nocortan(); // No se cortan
 	}
 
 	return toRet;

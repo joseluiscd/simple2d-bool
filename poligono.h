@@ -116,7 +116,7 @@ bool poligono2D<T>::validarPoligono(){
 	if(segmentoRespectoSegmento(*i, *segmentos.begin())!=coinciden){
 		return false;
 	}
-	
+
 	cout<<"EXITO"<<endl;
 	return true;
 }

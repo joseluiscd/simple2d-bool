@@ -39,6 +39,13 @@ punto2D<T> cambiaCoordenadas(const punto2D<T>& punto, const T& x1, const T& y1, 
 	return toRet;
 }
 
+template<typename T>
+punto2D<T> puntoMedio(punto2D<T> a, punto2D<T> b){
+	punto2D<T> toRet;
+	toRet.x = (a.x + b.x)/2;
+	toRet.y = (a.y + b.y)/2;
+	return toRet;
+}
 
 // O(1)
 template<typename T>
