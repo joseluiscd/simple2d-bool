@@ -35,7 +35,7 @@ class poligono2D{
 	public:
 	void construirSegmentos();
 	bool validarPoligono();
-	bool puntoEnPoligono(punto p, int precision=3);
+	bool puntoEnPoligono(punto p, int precision=3) const;
 
 	poligono2D();
 	poligono2D(const list<punto>& v);
@@ -123,10 +123,10 @@ bool poligono2D<T>::validarPoligono(){
 
 // O(n)
 template<typename T>
-bool poligono2D<T>::puntoEnPoligono(punto p, int precision){
+bool poligono2D<T>::puntoEnPoligono(punto p, int precision) const {
 	punto origen(0,0);
 	int suma = 0;
-	for(segmento_it i=segmentos.begin();i!=segmentos.end();i++){
+	for(auto i=segmentos.begin();i!=segmentos.end();i++){
 		suma+= signo(puntoDentroDeTriangulo(triangulo2D<T>(i->a, i->b, origen),p, precision));
 	}
 	return suma!=0;

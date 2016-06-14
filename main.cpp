@@ -37,4 +37,5 @@ int main(int argc, char *argv[]){
 	vector<poligono2Dd>* mun1 = cargarFicheroMif_double("datos/municipio1.mif", 9);
 	vector<poligono2Dd>* mun2 = cargarFicheroMif_double("datos/municipio2.mif", 9);
 
+	
 }

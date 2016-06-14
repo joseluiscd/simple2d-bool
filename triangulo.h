@@ -17,7 +17,7 @@ struct triangulo2D{
 	punto2D<T> a;
 	punto2D<T> b;
 	punto2D<T> c;
-	triangulo2D(punto2D<T> aa, punto2D<T> bb, punto2D<T> cc): a(aa.x, aa.y), b(bb.x, bb.y), c(cc.x,cc.y){};
+	triangulo2D(const punto2D<T>& aa, const punto2D<T>& bb, const punto2D<T>& cc): a(aa.x, aa.y), b(bb.x, bb.y), c(cc.x,cc.y){};
 	triangulo2D(): a(), b(), c(){};
 	triangulo2D(const triangulo2D<T>& orig): a(orig.a), b(orig.b), c(orig.c){};
 };
@@ -25,7 +25,7 @@ struct triangulo2D{
 
 // O(1)
 template<typename T>
-T areaSignada(triangulo2D<T> a){
+T areaSignada(const triangulo2D<T>& a){
 	return areaSignada(a.a, a.b, a.c);
 }
 
@@ -36,7 +36,7 @@ T areaSignada(triangulo2D<T> a){
 * O(1)
 */
 template<typename T>
-int puntoDentroDeTriangulo(triangulo2D<T> t, punto2D<T> p, int precision=3){
+int puntoDentroDeTriangulo(const triangulo2D<T>& t, const punto2D<T>& p, int precision=3){
 	int a = signo(areaSignada(t.a, t.b, p), precision);
 	int b = signo(areaSignada(t.b, t.c, p), precision);
 	int c = signo(areaSignada(t.c, t.a, p), precision);

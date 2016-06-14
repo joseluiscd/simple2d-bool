@@ -1,21 +1,18 @@
 #include "poligono.h"
 #include <list>
+#include <vector>
 
 #ifndef _BOOL_POLIGONO_H
 #define _BOOL_POLIGONO_H
 
 
 template<typename T>
-list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > > puntosDeCorte(const poligono2D<T>& a, const poligono2D<T>& b, int precision=3){
-	typedef typename list<segmento2D<T> >::iterator iterador;
-	typedef typename list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > >::iterator iteradorp;
-	typedef typename list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > >::reverse_iterator riteradorp;
+list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > > puntosDeCorte(const poligono2D<T>& a, const poligono2D<T>& b, int precision=3){
+	list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > > vert1;
 
-	list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > > vert1;
-
-	for(iterador i = a.segmentos.begin(); i!= a.segmentos.end(); i++){
-		list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > > cortes_segmento;
-		for(iterador j = b.segmentos.begin(); j!=b.segmentos.end(); i++){
+	for(auto i = a.segmentos.begin(); i!= a.segmentos.end(); i++){
+		list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > > cortes_segmento;
+		for(auto j = b.segmentos.begin(); j!=b.segmentos.end(); i++){
 			if(segmentoRespectoSegmento(*i, *j, precision)==cortan){
 				//calculamos el punto de corte
 				cortes_segmento.push_back(make_pair(puntoCorte(*i, *j), j));
@@ -24,13 +21,13 @@ list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > > puntosDeCorte(
 
 		if(cortes_segmento.size()>0){
 			//Los puntos, por la definición del polígono están en orden. El problema es que pueden estar al revés.
-			bool reves = distanciaCuadrado(cortes_segmento.front().first, vert1.back().first)>distanciaCuadrado(cortes_segmento.back(), vert1.back()); //Empezamos por atrás??
+			bool reves = distanciaCuadrado(cortes_segmento.front().first, vert1.back().first)>distanciaCuadrado(cortes_segmento.back().first, vert1.back().first); //Empezamos por atrás??
 			if(reves){
-				for(riteradorp j=cortes_segmento.rbegin();j!=cortes_segmento.rend();j++){
+				for(auto j=cortes_segmento.rbegin();j!=cortes_segmento.rend();j++){
 					vert1.push_back(*j);
 				}
 			} else {
-				for(iteradorp j=cortes_segmento.begin();j!=cortes_segmento.end();j++){
+				for(auto j=cortes_segmento.begin();j!=cortes_segmento.end();j++){
 					vert1.push_back(*j);
 				}
 			}
@@ -42,7 +39,7 @@ list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > > puntosDeCorte(
 
 template<typename T>
 struct nodoPoligono {
-	punto2D<T> punto;
+	const punto2D<T> punto;
 
 	//Los puntos por los que pasan los segmentos hasta llegar al siguiente punto de corte
 	list<punto2D<T> > puntosP1;
@@ -61,23 +58,24 @@ private:
 	list<nodoPoligono<T>*> puntos;
 	const poligono2D<T>& p1;
 	const poligono2D<T>& p2;
+
 	//Flag que indica si el polígono 2 tenemos que procesarlo al revés
 	bool p2c;
 
 	//Construir hasta el primer punto de corte. Este método se encarga de
 	//decidir si el polígono 2 hay que procesarlo al revés
-	void construyePrimero(list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > >& pdc, int precision=3);
-	void construyeSiguientes(list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > >& pdc, int precision=3);
+	void construyePrimero(list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > >& pdc, int precision=3);
+	void construyeSiguientes(list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > >& pdc, int precision=3);
 public:
 	boolPoligono(const poligono2D<T>& p1, const poligono2D<T>& p2, int precision=3);
 
-	vector<poligono2D<T> >* interseccion();
+	vector<poligono2D<T> >* interseccion() const;
 };
 
 template<typename T>
-void boolPoligono<T>::construyePrimero(list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > >& pdc, int precision){
+void boolPoligono<T>::construyePrimero(list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > >& pdc, int precision){
 	auto primero = pdc.front();
-	auto sigPunto = *(++pdc.begin()).first;
+	auto sigPunto = (++pdc.begin())->first;
 
 	/*
 	Se construye la combinación de los polígonos, usando el mismo sentido del polígono 1.
@@ -96,21 +94,21 @@ void boolPoligono<T>::construyePrimero(list<pair<punto2D<T>, typename list<segme
 		if(puntoEnSegmento(sigPunto, *segmentoSNormal)){
 			p2c = false;
 
-			sentidoNormal.puntosP2.push_back(sigPunto);
+			sentidoNormal->puntosP2.push_back(sigPunto);
 			definitivo = sentidoNormal;
 			delete sentidoContrario;
 			break;
 		} else if(puntoEnSegmento(sigPunto, *segmentoSContrario)){
 			p2c = true;
 
-			sentidoContrario.puntosP2.push_back(sigPunto);
+			sentidoContrario->puntosP2.push_back(sigPunto);
 			definitivo = sentidoContrario;
 			delete sentidoNormal;
 			break;
 		}
 
-		sentidoNormal.puntosP2.push_back(segmentoSNormal->b);
-		sentidoContrario.puntosP2.push_back(segmentoSContrario->a);
+		sentidoNormal->puntosP2.push_back(segmentoSNormal->b);
+		sentidoContrario->puntosP2.push_back(segmentoSContrario->a);
 
 		segmentoSNormal++;
 		segmentoSContrario--;
@@ -122,10 +120,10 @@ void boolPoligono<T>::construyePrimero(list<pair<punto2D<T>, typename list<segme
 	auto segmentoP1 = p1.segmentos.begin();
 	while(true){
 		if(puntoEnSegmento(sigPunto, *segmentoP1)){
-			definitivo.puntosP1.push_back(sigPunto);
+			definitivo->puntosP1.push_back(sigPunto);
 			break;
 		}
-		definitivo.puntosP1.push_back(segmentoP1->b);
+		definitivo->puntosP1.push_back(segmentoP1->b);
 		segmentoP1++;
 	}
 
@@ -135,7 +133,7 @@ void boolPoligono<T>::construyePrimero(list<pair<punto2D<T>, typename list<segme
 }
 
 template<typename T>
-void boolPoligono<T>::construyeSiguientes(list<pair<punto2D<T>, typename list<segmento2D<T> >::iterator > >& pdc, int precision){
+void boolPoligono<T>::construyeSiguientes(list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > >& pdc, int precision){
 	auto segmentoP1 = p1.segmentos.begin();
 
 	//Llegamos al segmento de P1 donde se produce la intersección
@@ -198,46 +196,46 @@ boolPoligono<T>::boolPoligono(const poligono2D<T>& _p1, const poligono2D<T>& _p2
 #endif
 
 template<typename T>
-vector<poligono2D<T> >* boolPoligono<T>::interseccion(){
+vector<poligono2D<T> >* boolPoligono<T>::interseccion() const {
 	vector<poligono2D<T> >* ret = new vector<poligono2D<T> >();
 
 	list<punto2D<T> > poligonoActual;
-	punto2D<T>* puntoFinal;
+	const punto2D<T>* puntoFinal;
 
 	for(auto it=puntos.begin(); it!=puntos.end(); it++){
-		punto2D<T> m1 = puntoMedio(it->punto, it->puntosP1.front());
-		punto2D<T> m2 = puntoMedio(it->punto, it->puntosP2.front());
+		punto2D<T> m1 = puntoMedio((*it)->punto, (*it)->puntosP1.front());
+		punto2D<T> m2 = puntoMedio((*it)->punto, (*it)->puntosP2.front());
 
 		//Distinguimos 3 casos
 		if(p1.puntoEnPoligono(m2)){
 			if(p2.puntoEnPoligono(m1)){
 				//Caso 1: tenemos que elegir los 2 polígonos
-				poligonoActual.push_back(it->punto);
-				for(auto itp=it->puntosP1.begin(); itp!=it->puntosP1.end(); itp++){
+				poligonoActual.push_back((*it)->punto);
+				for(auto itp=(*it)->puntosP1.begin(); itp!=(*it)->puntosP1.end(); itp++){
 					poligonoActual.push_back(*itp);
 				}
-				for(auto itp=++(it->puntosP2.rbegin()); itp!=it->puntosP2.rend(); itp++){
+				for(auto itp=++((*it)->puntosP2.rbegin()); itp!=(*it)->puntosP2.rend(); itp++){
 					poligonoActual.push_back(*itp);
 				}
 
-				ret.push_back(poligono2D<T>(poligonoActual));
+				ret->push_back(poligono2D<T>(poligonoActual));
 				poligonoActual.clear();
 			} else {
 				//Caso 2: elegimos los puntos del polígono 2
 				if(!puntoFinal){
-					puntoFinal = it->punto;
+					puntoFinal = &(*it)->punto;
 				}
 
-				for(auto itp=it->puntosP2.begin(); itp!=it->puntosP2.end(); itp++){
+				for(auto itp=(*it)->puntosP2.begin(); itp!=(*it)->puntosP2.end(); itp++){
 					poligonoActual.push_back(*itp);
 				}
 			}
 		} else if(p2.puntoEnPoligono(m1)){
 			//Caso 3: elegimos los puntos del polígono 1
 			if(!puntoFinal){
-				puntoFinal = it->punto;
+				puntoFinal = &(*it)->punto;
 			}
-			for(auto itp=it->puntosP1.begin(); itp!=it->puntosP1.end(); itp++){
+			for(auto itp=(*it)->puntosP1.begin(); itp!=(*it)->puntosP1.end(); itp++){
 				poligonoActual.push_back(*itp);
 			}
 		}
@@ -245,7 +243,7 @@ vector<poligono2D<T> >* boolPoligono<T>::interseccion(){
 
 	if(puntoFinal){
 		poligonoActual.push_back(*puntoFinal);
-		ret.push_back(poligono2D<T>(poligonoActual));
+		ret->push_back(poligono2D<T>(poligonoActual));
 	}
 
 	return ret;

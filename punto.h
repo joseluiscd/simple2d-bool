@@ -18,8 +18,6 @@ struct punto2D{
 	punto2D(): x(0), y(0){};
 };
 
-
-
 /**
 * Cambia el sistema de coordenadas.
 */
@@ -40,7 +38,7 @@ punto2D<T> cambiaCoordenadas(const punto2D<T>& punto, const T& x1, const T& y1, 
 }
 
 template<typename T>
-punto2D<T> puntoMedio(punto2D<T> a, punto2D<T> b){
+punto2D<T> puntoMedio(const punto2D<T>& a, const punto2D<T>& b){
 	punto2D<T> toRet;
 	toRet.x = (a.x + b.x)/2;
 	toRet.y = (a.y + b.y)/2;

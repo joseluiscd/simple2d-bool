@@ -42,7 +42,7 @@ T areaSignada(const segmento2D<T>& a, const punto2D<T>& c){
 
 // O(1)
 template<typename T>
-SegmentoSegmento segmentoRespectoSegmento(segmento2D<T> a, segmento2D<T> b, int precision=3){
+SegmentoSegmento segmentoRespectoSegmento(const segmento2D<T>& a, const segmento2D<T>& b, int precision=3){
 	//Son iguales??
 	int x11 = signo(a.a.x, b.a.x, precision);
 	int x12 = signo(a.a.x, b.b.x, precision);
@@ -64,18 +64,18 @@ SegmentoSegmento segmentoRespectoSegmento(segmento2D<T> a, segmento2D<T> b, int 
 }
 
 template<typename T>
-bool puntoEnSegmento(punto2D<T> p, segmento2D<T> s, int precision=3){
+bool puntoEnSegmento(const punto2D<T>& p, const segmento2D<T>& s, int precision=3){
 	return signo(areaSignada(s, p))==0;
 }
 
 template<typename T>
-punto2D<T> puntoMedio(segmento2D<T> s){
+punto2D<T> puntoMedio(const segmento2D<T>& s){
 	return puntoMedio(s.a, s.b);
 }
 
 //Devuelve el punto de corte entre los 2 segmentos
 template<typename T>
-punto2D<T> puntoCorte(segmento2D<T> a, segmento2D<T> b, int precision=3){
+punto2D<T> puntoCorte(const segmento2D<T>& a, const segmento2D<T>& b, int precision=3){
 	double s, t;
 	double denom = a.a.x * ( b.b.y - b.a.y) + a.b.x * (b.a.y-b.b.y) + b.a.x * (a.b.y - a.a.y) + b.b.x*(a.a.y-a.b.y);
 	punto2D<T> toRet;
