@@ -9,14 +9,15 @@
 template<typename T>
 list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > > puntosDeCorte(const poligono2D<T>& a, const poligono2D<T>& b, int precision=3){
 	list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > > vert1;
-	for(auto i = a.segmentos.begin(); i!= a.segmentos.end(); i++){
+	for(auto i = a.segmentos.begin(); i != a.segmentos.end(); i++){
 		list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > > cortes_segmento;
-		for(auto j = b.segmentos.begin(); j!=b.segmentos.end(); i++){
-			printf("Uuue\n");
+		for(auto j = b.segmentos.begin(); j!=b.segmentos.end(); j++){
 			if(segmentoRespectoSegmento(*i, *j, precision)==cortan){
 				//calculamos el punto de corte
-				printf("-------Cortan\n");
+				printf("(%f,%f - %f,%f)\n", i->a.x, i->a.y, i->b.x, i->b.y);
+				printf("(%f,%f - %f,%f)\n\n", j->a.x, j->a.y, j->b.x, j->b.y);
 				cortes_segmento.push_back(make_pair(puntoCorte(*i, *j), j));
+				printf("Done!\n");
 			}
 		}
 
@@ -145,14 +146,14 @@ void boolPoligono<T>::construyeSiguientes(list<pair<punto2D<T>, typename list<se
 		punto2D<T>& punto = corte.first;
 		pdc.pop_front();
 
-		punto2D<T>& sigPuntoIt = pdc.begin();
+		auto sigPuntoIt = pdc.begin();
 		punto2D<T> sigPunto;
 		if(sigPuntoIt==pdc.end()){
 			//No quedan más puntos de corte. Se ejecuta la última vez
 			sigPunto = puntos.front()->punto; //primer punto de corte (para cerrar)
 		} else {
 			//Quedan puntos de corte
-			sigPunto = *sigPuntoIt;
+			sigPunto = sigPuntoIt->first;
 		}
 
 		nodoPoligono<T>* actual = new nodoPoligono<T>(punto);
@@ -161,7 +162,7 @@ void boolPoligono<T>::construyeSiguientes(list<pair<punto2D<T>, typename list<se
 		auto segmentoP2 = corte.second;
 		while(!puntoEnSegmento(sigPunto, *segmentoP2)){
 
-			actual.puntosP2.push_back(
+			actual->puntosP2.push_back(
 				p2c ?
 				(segmentoP2--)->a :
 				(segmentoP2++)->b
@@ -175,13 +176,13 @@ void boolPoligono<T>::construyeSiguientes(list<pair<punto2D<T>, typename list<se
 				segmentoP2 = p2.segmentos.begin();
 			}
 		}
-		actual.puntosP2.push_back(sigPunto);
+		actual->puntosP2.push_back(sigPunto);
 
 		//Introducimos los puntos del polígono 1
 		while(segmentoP1!=p1.segmentos.end()){
-			actual.puntosP2.push_back((segmentoP1++)->b);
+			actual->puntosP2.push_back((segmentoP1++)->b);
 		}
-		actual.puntosP1.push_back(sigPunto);
+		actual->puntosP1.push_back(sigPunto);
 
 		puntos.push_back(actual);
 	} while(!pdc.empty());
@@ -191,8 +192,11 @@ template<typename T>
 boolPoligono<T>::boolPoligono(const poligono2D<T>& _p1, const poligono2D<T>& _p2, int precision)
 	:p2c(false), puntos(), p1(_p1), p2(_p2)
 {
+	printf("Construyendo polígonos...\n");
 	auto pdc = puntosDeCorte(p1, p2, precision);
+	printf("Ya está\n");
 	construyePrimero(pdc, precision);
+	construyeSiguientes(pdc, precision);
 }
 #endif
 
@@ -213,9 +217,11 @@ vector<poligono2D<T> >* boolPoligono<T>::interseccion() const {
 				//Caso 1: tenemos que elegir los 2 polígonos
 				poligonoActual.push_back((*it)->punto);
 				for(auto itp=(*it)->puntosP1.begin(); itp!=(*it)->puntosP1.end(); itp++){
+					printf("Punto: (%f, %f)\n", itp->x, itp->y);
 					poligonoActual.push_back(*itp);
 				}
 				for(auto itp=++((*it)->puntosP2.rbegin()); itp!=(*it)->puntosP2.rend(); itp++){
+					printf("Punto(r): (%f, %f)\n", itp->x, itp->y);
 					poligonoActual.push_back(*itp);
 				}
 

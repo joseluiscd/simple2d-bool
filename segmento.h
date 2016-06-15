@@ -54,12 +54,12 @@ SegmentoSegmento segmentoRespectoSegmento(const segmento2D<T>& a, const segmento
 	int y21 = signo(a.b.y, b.a.y, precision);
 	int y22 = signo(a.b.y, b.b.y, precision);
 
-	if(!( (x11 && x12 && x21 && x22)||(y11 && y12 && y21 && y22) )){
+	if( !(x11 && x12 && x21 && x22) && !(y11 && y12 && y21 && y22) ){
 		//Coincide alguna X y alguna Y. Coinciden por un extremo o son iguales
 		return signo(areaSignada(a, b.a), precision) || signo(areaSignada(a, b.b), precision) ? coinciden : iguales;
 	} else {
 		//O se cortan o nada
-		return signo(areaSignada(a, b.a))==-signo(areaSignada(a, b.b)) && signo(areaSignada(b, a.a))==-signo(areaSignada(b, a.b)) ? cortan : nada;
+		return (signo(areaSignada(a, b.a))==-signo(areaSignada(a, b.b)) && signo(areaSignada(b, a.a))==-signo(areaSignada(b, a.b))) ? cortan : nada;
 	}
 }
 
@@ -90,8 +90,8 @@ punto2D<T> puntoCorte(const segmento2D<T>& a, const segmento2D<T>& b, int precis
 	toRet.x = a.a.x+s*(a.b.x-a.a.x);
 	toRet.y = a.a.y+t*(a.b.y-a.a.y);
 
-	if((0<=s)&&(s<=1)&&(0<=t)&&(t<=1)){
-		throw nocortan(); // No se cortan
+	if(!puntoEnSegmento(toRet, a)){
+		throw nocortan(); //No se cortan
 	}
 
 	return toRet;

@@ -1,6 +1,6 @@
 TESTS = intersection.exe
 
-test: $(TESTS)
+test: ../algoritmos.dll $(TESTS)
 
-%.exe: %.cpp
+%.exe: %.cpp ../algoritmos.dll
 	g++ -g -std=c++11 -I.. -L.. -l algoritmos $< -o $@

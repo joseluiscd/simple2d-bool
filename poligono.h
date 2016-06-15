@@ -89,6 +89,7 @@ template<typename T>
 bool poligono2D<T>::validarPoligono(){
 	//Recorremos los segmentos del polígono
 	for(segmento_it i=++segmentos.begin();i!=prev(segmentos.end());i++){
+		printf("(%f, %f) (%f, %f)\n", i->a.x,  i->a.y, i->b.x, i->b.y);
 		//Comprobamos si el anterior segmento coincide con el actual
 		if(segmentoRespectoSegmento(*i, *prev(i))!=coinciden){
 			cout<<"Encontrado un "<<segmentoRespectoSegmento(*i, *prev(i))<<endl;
