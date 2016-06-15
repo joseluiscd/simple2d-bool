@@ -36,6 +36,9 @@ list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > > puntosDe
 		}
 	}
 
+	for(auto it=vert1.begin(); it!=vert1.end(); it++){
+		printf("Punto de corte (%f,%f)\n", it->first.x, it->first.y);
+	}
 	return vert1;
 }
 
@@ -92,6 +95,7 @@ void boolPoligono<T>::construyePrimero(list<pair<punto2D<T>, typename list<segme
 	auto segmentoSNormal = primero.second;
 	auto segmentoSContrario = primero.second;
 
+	bool reset = false;
 	while(true){
 		if(puntoEnSegmento(sigPunto, *segmentoSNormal)){
 			p2c = false;
@@ -108,13 +112,28 @@ void boolPoligono<T>::construyePrimero(list<pair<punto2D<T>, typename list<segme
 			delete sentidoNormal;
 			break;
 		}
-
+		printf("Pasa\n");
 		sentidoNormal->puntosP2.push_back(segmentoSNormal->b);
 		sentidoContrario->puntosP2.push_back(segmentoSContrario->a);
 
 		segmentoSNormal++;
-		segmentoSContrario--;
+		if(segmentoSNormal==p2.segmentos.end()){
+			segmentoSNormal= p2.segmentos.begin();
+		}
 
+		if(reset){
+			segmentoSContrario = p2.segmentos.end();
+			reset = false;
+		}
+		segmentoSContrario--;
+		if(segmentoSContrario==p2.segmentos.begin()){
+			reset = true;
+		}
+
+	}
+
+	for(auto kk : definitivo->puntosP2){
+		printf("--punto: %f, %f\n", kk.x, kk.y);
 	}
 
 	//Ya sabemos el sentido definitivo del polígono 2, y hemos introducido los
@@ -145,7 +164,6 @@ void boolPoligono<T>::construyeSiguientes(list<pair<punto2D<T>, typename list<se
 		auto corte = pdc.front();
 		punto2D<T>& punto = corte.first;
 		pdc.pop_front();
-
 		auto sigPuntoIt = pdc.begin();
 		punto2D<T> sigPunto;
 		if(sigPuntoIt==pdc.end()){
@@ -160,8 +178,8 @@ void boolPoligono<T>::construyeSiguientes(list<pair<punto2D<T>, typename list<se
 
 		//Introducimos los puntos del polígono 2
 		auto segmentoP2 = corte.second;
-		while(!puntoEnSegmento(sigPunto, *segmentoP2)){
-
+		bool reset = false;
+		while(!puntoEnSegmento(sigPunto, *segmentoP2, precision)){
 			actual->puntosP2.push_back(
 				p2c ?
 				(segmentoP2--)->a :
@@ -169,9 +187,14 @@ void boolPoligono<T>::construyeSiguientes(list<pair<punto2D<T>, typename list<se
 			);
 
 			//Comprobamos si hay que dar la vuelta al polígono 2
-			if(segmentoP2==p2.segmentos.begin()){
+			if(reset){
 				segmentoP2 = p2.segmentos.end();
 				segmentoP2--;
+				reset = false;
+			}
+
+			if(segmentoP2==p2.segmentos.begin()){
+				reset = true;
 			} else if(segmentoP2==p2.segmentos.end()){
 				segmentoP2 = p2.segmentos.begin();
 			}

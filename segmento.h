@@ -73,22 +73,40 @@ punto2D<T> puntoMedio(const segmento2D<T>& s){
 	return puntoMedio(s.a, s.b);
 }
 
+template<typename T>
+inline T det(T a, T b, T c, T d){
+	return (a*d - b*c);
+}
+
 //Devuelve el punto de corte entre los 2 segmentos
 template<typename T>
 punto2D<T> puntoCorte(const segmento2D<T>& a, const segmento2D<T>& b, int precision=3){
-	double s, t;
-	double denom = a.a.x * ( b.b.y - b.a.y) + a.b.x * (b.a.y-b.b.y) + b.a.x * (a.b.y - a.a.y) + b.b.x*(a.a.y-a.b.y);
 	punto2D<T> toRet;
 
-	if (denom==0){
+	T a1 = a.b.y - a.a.y;
+	T a2 = - a.b.x + a.a.x;
+	T a3 = b.b.y - b.a.y;
+	T a4 = - b.b.x + b.a.x;
+
+	T denom = det(a1,a2,a3,a4);
+
+	if (signo(denom, precision)==0){
 		throw paralelas(); // Son paralelas
 	}
 
-	s = (a.a.x * ( b.b.y - b.a.y) + b.a.x*(a.a.y-b.b.y) + b.b.x*(b.a.y-a.a.y) )/denom;
-	t = -(a.a.x*(b.a.y-a.b.y)+a.b.x*(a.a.y-b.a.y)+b.a.x*(a.b.y-a.a.y))/denom;
+	//Calcular la X
+	a1 = a.a.x*(a.b.y-a.a.y) - a.a.y*(a.b.x-a.a.x);
+	a3 = b.a.x*(b.b.y-b.a.y) - b.a.y*(b.b.x-b.a.x);
 
-	toRet.x = a.a.x+s*(a.b.x-a.a.x);
-	toRet.y = a.a.y+t*(a.b.y-a.a.y);
+	toRet.x = det(a1,a2,a3,a4) / denom;
+
+	//Calculamos la Y
+	a1 = a.b.y - a.a.y;
+	a2 = a.a.x*(a.b.y-a.a.y) - a.a.y*(a.b.x-a.a.x);
+	a3 = b.b.y - b.a.y;
+	a4 = b.a.x*(b.b.y-b.a.y) - b.a.y*(b.b.x-b.a.x);
+
+	toRet.y = det(a1,a2,a3,a4) / denom;
 
 	if(!puntoEnSegmento(toRet, a)){
 		throw nocortan(); //No se cortan
