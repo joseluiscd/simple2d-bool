@@ -49,7 +49,6 @@ int puntoDentroDeTriangulo(const triangulo2D<T>& t, const punto2D<T>& p, int pre
 			0 : //Sólo se cumple el primero
 			signo(a + b + c); //No se cumple ninguno
 
-
 }
 
 #endif

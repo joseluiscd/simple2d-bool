@@ -42,6 +42,13 @@ list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > > puntosDe
 	return vert1;
 }
 
+enum casosEspecialesBool {
+	ninguno,
+	P1enP2,
+	P2enP1,
+	disjuntos
+};
+
 template<typename T>
 struct nodoPoligono {
 	const punto2D<T> punto;
@@ -66,6 +73,9 @@ private:
 
 	//Flag que indica si el polígono 2 tenemos que procesarlo al revés
 	bool p2c;
+
+	//Si nos encontramos en un caso especial
+	casosEspecialesBool caso;
 
 	//Construir hasta el primer punto de corte. Este método se encarga de
 	//decidir si el polígono 2 hay que procesarlo al revés
@@ -112,28 +122,20 @@ void boolPoligono<T>::construyePrimero(list<pair<punto2D<T>, typename list<segme
 			delete sentidoNormal;
 			break;
 		}
-		printf("Pasa\n");
+
 		sentidoNormal->puntosP2.push_back(segmentoSNormal->b);
 		sentidoContrario->puntosP2.push_back(segmentoSContrario->a);
 
 		segmentoSNormal++;
-		if(segmentoSNormal==p2.segmentos.end()){
+		if(segmentoSNormal == p2.segmentos.end()){
 			segmentoSNormal= p2.segmentos.begin();
 		}
 
-		if(reset){
+		if(segmentoSContrario == p2.segmentos.begin()){
 			segmentoSContrario = p2.segmentos.end();
-			reset = false;
 		}
 		segmentoSContrario--;
-		if(segmentoSContrario==p2.segmentos.begin()){
-			reset = true;
-		}
 
-	}
-
-	for(auto kk : definitivo->puntosP2){
-		printf("--punto: %f, %f\n", kk.x, kk.y);
 	}
 
 	//Ya sabemos el sentido definitivo del polígono 2, y hemos introducido los
@@ -160,64 +162,56 @@ void boolPoligono<T>::construyeSiguientes(list<pair<punto2D<T>, typename list<se
 	//Llegamos al segmento de P1 donde se produce la intersección
 	while(!puntoEnSegmento(pdc.front().first, *segmentoP1)) segmentoP1++;
 
-	do {
+	while(!pdc.empty()) {
 		auto corte = pdc.front();
 		punto2D<T>& punto = corte.first;
 		pdc.pop_front();
-		auto sigPuntoIt = pdc.begin();
-		punto2D<T> sigPunto;
-		if(sigPuntoIt==pdc.end()){
-			//No quedan más puntos de corte. Se ejecuta la última vez
-			sigPunto = puntos.front()->punto; //primer punto de corte (para cerrar)
-		} else {
-			//Quedan puntos de corte
-			sigPunto = sigPuntoIt->first;
-		}
+
+		punto2D<T> sigPunto = pdc.empty() ? puntos.front()->punto : pdc.front().first;
 
 		nodoPoligono<T>* actual = new nodoPoligono<T>(punto);
 
 		//Introducimos los puntos del polígono 2
 		auto segmentoP2 = corte.second;
-		bool reset = false;
 		while(!puntoEnSegmento(sigPunto, *segmentoP2, precision)){
+			printf("Segmentoooooo!!!! (%f, %f)\n", segmentoP2->a.x, segmentoP2->a.y);
+			printf("sig punto: (%f,%f)\n", sigPunto.x, sigPunto.y);
 			actual->puntosP2.push_back(
 				p2c ?
-				(segmentoP2--)->a :
-				(segmentoP2++)->b
+				segmentoP2->a :
+				segmentoP2->b
 			);
 
 			//Comprobamos si hay que dar la vuelta al polígono 2
-			if(reset){
-				segmentoP2 = p2.segmentos.end();
+			if(p2c){
+				if(segmentoP2==p2.segmentos.begin()){
+					segmentoP2 = p2.segmentos.end();
+				}
 				segmentoP2--;
-				reset = false;
-			}
-
-			if(segmentoP2==p2.segmentos.begin()){
-				reset = true;
-			} else if(segmentoP2==p2.segmentos.end()){
-				segmentoP2 = p2.segmentos.begin();
+			} else {
+				segmentoP2++;
+				if(segmentoP2==p2.segmentos.end()){
+					segmentoP2 = p2.segmentos.begin();
+				}
 			}
 		}
 		actual->puntosP2.push_back(sigPunto);
 
 		//Introducimos los puntos del polígono 1
-		while(segmentoP1!=p1.segmentos.end()){
-			actual->puntosP2.push_back((segmentoP1++)->b);
+		while(!puntoEnSegmento(sigPunto, *segmentoP1, precision)){
+			actual->puntosP1.push_back((segmentoP1++)->b);
 		}
 		actual->puntosP1.push_back(sigPunto);
 
 		puntos.push_back(actual);
-	} while(!pdc.empty());
+	}
 }
 
 template<typename T>
 boolPoligono<T>::boolPoligono(const poligono2D<T>& _p1, const poligono2D<T>& _p2, int precision)
-	:p2c(false), puntos(), p1(_p1), p2(_p2)
+	:p2c(false), puntos(), p1(_p1), p2(_p2), caso(ninguno)
 {
-	printf("Construyendo polígonos...\n");
 	auto pdc = puntosDeCorte(p1, p2, precision);
-	printf("Ya está\n");
 	construyePrimero(pdc, precision);
 	construyeSiguientes(pdc, precision);
 }
