@@ -5,7 +5,7 @@ HEADERS = poligono.h punto.h segmento.h triangulo.h signo.h bool_poligono.h
 
 all: main
 
-test:
+test: libalgoritmos.so
 	$(MAKE) -C ./test test
 
 libalgoritmos.so: $(OBJECTS) $(HEADERS)

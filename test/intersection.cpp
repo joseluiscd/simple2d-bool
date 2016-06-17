@@ -24,14 +24,10 @@ int main() {
     poligono2Df poligono1(cuadrado1);
     poligono2Df poligono2(cuadrado2);
 
-    boolPoligono<float> i(poligono1, poligono2);
-    auto x = i.interseccion();
+    auto x = interseccion(poligono1, poligono2);
 
-
-    cout.flush();
-
-    dumpPoligono("interseccion1.txt", poligono1);
-    dumpPoligono("interseccion2.txt", poligono2);
-    dumpPoligono("interseccion3.txt", (*x)[0]);
+    for(auto i : *x){
+        printf("(%f,%f)-(%f,%f)\n", i.a.x, i.a.y, i.b.x, i.b.y);
+    }
     return 0;
 }
