@@ -57,15 +57,26 @@ SegmentoSegmento segmentoRespectoSegmento(const segmento2D<T>& a, const segmento
 	if( !(x11 && x12 && x21 && x22) && !(y11 && y12 && y21 && y22) ){
 		//Coincide alguna X y alguna Y. Coinciden por un extremo o son iguales
 		return signo(areaSignada(a, b.a), precision) || signo(areaSignada(a, b.b), precision) ? coinciden : iguales;
+	} else if(signo(areaSignada(a, b.a))==-signo(areaSignada(a, b.b)) && signo(areaSignada(b, a.a))==-signo(areaSignada(b, a.b))){
+		return cortan;
+	} else if(puntoEnSegmento(a.a, b, precision) || puntoEnSegmento(a.b, b, precision) || puntoEnSegmento(b.a, a, precision) || puntoEnSegmento(b.b, a, precision)){
+		//Comprobamos si hay una intersección en forma de T
+		return cortan;
 	} else {
-		//O se cortan o nada
-		return (signo(areaSignada(a, b.a))==-signo(areaSignada(a, b.b)) && signo(areaSignada(b, a.a))==-signo(areaSignada(b, a.b))) ? cortan : nada;
+		return nada;
 	}
 }
 
 template<typename T>
 bool puntoEnSegmento(const punto2D<T>& p, const segmento2D<T>& s, int precision=3){
-	return signo(areaSignada(s, p))==0;
+	if (signo(areaSignada(s, p))==0){
+		//Están alineados
+		T i = distanciaCuadrado(s.a, s.b); //Longitud al cuadrado del segmento
+		if(distanciaCuadrado(s.a, p) > i || distanciaCuadrado(s.b, p) > i){
+			return false;
+		}
+		return true;
+	}
 }
 
 template<typename T>

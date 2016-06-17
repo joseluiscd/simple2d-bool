@@ -1,16 +1,29 @@
 #include "poligono.h"
 #include <list>
 #include <vector>
+#include <algorithm>
 
 #ifndef _BOOL_POLIGONO_H
 #define _BOOL_POLIGONO_H
+
+using namespace std;
+
+template<typename T>
+struct sortPuntos {
+	const punto2D<T>* punto;
+	bool operator() (const pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator>& i, const pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator>& j) {
+		return (distanciaCuadrado(i.first, *punto)<distanciaCuadrado(j.first, *punto));
+	}
+
+	sortPuntos(const punto2D<T>* p): punto(p) {};
+};
 
 
 template<typename T>
 list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > > puntosDeCorte(const poligono2D<T>& a, const poligono2D<T>& b, int precision=3){
 	list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > > vert1;
 	for(auto i = a.segmentos.begin(); i != a.segmentos.end(); i++){
-		list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > > cortes_segmento;
+		vector<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > > cortes_segmento;
 		for(auto j = b.segmentos.begin(); j!=b.segmentos.end(); j++){
 			if(segmentoRespectoSegmento(*i, *j, precision)==cortan){
 				//calculamos el punto de corte
@@ -22,16 +35,9 @@ list<pair<punto2D<T>, typename list<segmento2D<T> >::const_iterator > > puntosDe
 		}
 
 		if(cortes_segmento.size()>0){
-			//Los puntos, por la definición del polígono están en orden. El problema es que pueden estar al revés.
-			bool reves = distanciaCuadrado(cortes_segmento.front().first, vert1.back().first)>distanciaCuadrado(cortes_segmento.back().first, vert1.back().first); //Empezamos por atrás??
-			if(reves){
-				for(auto j=cortes_segmento.rbegin();j!=cortes_segmento.rend();j++){
-					vert1.push_back(*j);
-				}
-			} else {
-				for(auto j=cortes_segmento.begin();j!=cortes_segmento.end();j++){
-					vert1.push_back(*j);
-				}
+			sort(cortes_segmento.begin(), cortes_segmento.end(), sortPuntos<T>(&i->a));
+			for(int j=0; j<cortes_segmento.size(); j++){
+				vert1.push_back(cortes_segmento[j]);
 			}
 		}
 	}
@@ -168,6 +174,10 @@ void boolPoligono<T>::construyeSiguientes(list<pair<punto2D<T>, typename list<se
 		pdc.pop_front();
 
 		punto2D<T> sigPunto = pdc.empty() ? puntos.front()->punto : pdc.front().first;
+		//Tenemos un punto que corta con 2 segmentos
+		if(sigPunto==punto){
+			continue;
+		}
 
 		nodoPoligono<T>* actual = new nodoPoligono<T>(punto);
 
@@ -266,8 +276,13 @@ vector<poligono2D<T> >* boolPoligono<T>::interseccion() const {
 	}
 
 	if(puntoFinal){
-		poligonoActual.push_back(*puntoFinal);
-		ret->push_back(poligono2D<T>(poligonoActual));
+		try{
+			ret->push_back(poligono2D<T>(poligonoActual));
+		} catch(punto2D<T>& p){
+			printf("Es un punto!!\n");
+		} catch(segmento2D<T>& s){
+			printf("Es un segmento!!\n");
+		}
 	}
 
 	return ret;

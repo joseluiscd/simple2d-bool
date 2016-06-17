@@ -16,6 +16,10 @@ struct punto2D{
 	T y;
 	punto2D(const T& ax, const T& ay): x(ax), y(ay){};
 	punto2D(): x(0), y(0){};
+
+	bool operator==(const punto2D<T>& other){
+		return this->x==other.x && this->y==other.y;
+	}
 };
 
 /**

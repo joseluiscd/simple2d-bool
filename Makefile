@@ -5,14 +5,14 @@ HEADERS = poligono.h punto.h segmento.h triangulo.h signo.h bool_poligono.h
 
 all: main
 
-test: algoritmos.dll
+test:
 	$(MAKE) -C ./test test
 
-algoritmos.dll: $(OBJECTS) $(HEADERS)
-	g++ -g -std=c++11 -shared $(OBJECTS) -o $@
+libalgoritmos.so: $(OBJECTS) $(HEADERS)
+	g++ -g -std=c++11 -shared $(OBJECTS) -fPIC -o $@
 
 main: $(OBJECTS) $(HEADERS)
 	g++ -g -std=c++11 $(OBJECTS) -o $@
 
 %.o: %.cpp $(HEADERS)
-	g++ -g -std=c++11 -c $< -o $@
+	g++ -g -fPIC -std=c++11 -c $< -o $@

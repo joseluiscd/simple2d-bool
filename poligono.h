@@ -44,6 +44,7 @@ class poligono2D{
 
 
 };
+
 template<typename T>
 poligono2D<T>::~poligono2D(){}
 
@@ -57,6 +58,14 @@ template<typename T>
 poligono2D<T>::poligono2D(const list<punto>& v):
 	segmentos()
 	{
+		if(v.size()==1){
+			//Es un punto
+			throw punto2D<T>(v.front());
+		} else if(v.size()==2){
+			//Es un segmento
+			throw segmento2D<T>(*v.begin(), *v.rbegin());
+		}
+
 		for(punto_it_c i=v.begin();i!=v.end();i++){
 			vertices.push_back(*i);
 		}
@@ -118,7 +127,6 @@ bool poligono2D<T>::validarPoligono(){
 		return false;
 	}
 
-	cout<<"EXITO"<<endl;
 	return true;
 }
 
