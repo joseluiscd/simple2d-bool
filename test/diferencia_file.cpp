@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
     poligono2Df* poligono1 = cargarFicheroFloat(argv[1]);
     poligono2Df* poligono2 = cargarFicheroFloat(argv[2]);
 
-    auto x = unionPoligonos(*poligono1, *poligono2);
+    auto x = diferenciaPoligonos(*poligono1, *poligono2);
 
     for(auto i : *x){
         printf("%f\t%f\t%f\t%f\n", i.a.x, i.a.y, i.b.x, i.b.y);

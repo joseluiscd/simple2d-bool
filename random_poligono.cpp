@@ -12,8 +12,8 @@ poligono2D<float>* poligonoRandom(float radio, float ruido, int npuntos){
     for(int i=0;i<npuntos;i++){
         float random = ruido*(((rand()%1000)+1)/1000.0);
 
-        float x = random * radio * cos(paso*i);
-        float y = random * radio * sin(paso*i);
+        float x = (random + radio) * cos(paso*i);
+        float y = (random + radio) * sin(paso*i);
         puntos.push_back(punto2D<float>(x,y));
     }
 
