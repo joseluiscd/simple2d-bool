@@ -121,4 +121,9 @@ punto2D<T> puntoCorte(const segmento2D<T>& a, const segmento2D<T>& b, int precis
 
 	return toRet;
 }
+
+template<typename T>
+segmento2D<T> reves(const segmento2D<T>& s){
+	return segmento2D<T>(s.b, s.a);
+}
 #endif

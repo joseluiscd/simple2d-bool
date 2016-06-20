@@ -129,7 +129,7 @@ vector<segmento2D<T> >* diferenciaPoligonos(const poligono2D<T>& a, const poligo
 	for(auto it=segmentos2->begin(); it!=segmentos2->end(); it++){
 		punto2D<T> pmedio = puntoMedio(*it);
 		if(a.puntoEnPoligono(pmedio)){
-			ret->push_back(*it);
+			ret->push_back(reves(*it));
 		}
 	}
 
