@@ -7,4 +7,6 @@
 vector<poligono2Df>* cargarFicheroMif_float(const char* fichero, int precision);
 vector<poligono2Dd>* cargarFicheroMif_double(const char* fichero, int precision);
 
+poligono2D<float>* cargarFicheroFloat(const char* fichero);
+
 #endif

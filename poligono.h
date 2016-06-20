@@ -17,6 +17,9 @@
 
 using namespace std;
 
+class poligonoInvalido: public exception {
+};
+
 template<typename T>
 class poligono2D{
 	private:
@@ -88,8 +91,7 @@ void poligono2D<T>::construirSegmentos(){
 
 	//¿Es correcto el polígono?
 	if(!validarPoligono()){
-		cout<<"Esto es una locura";
-		throw int(2);
+		throw poligonoInvalido();
 	}
 }
 
@@ -98,17 +100,14 @@ template<typename T>
 bool poligono2D<T>::validarPoligono(){
 	//Recorremos los segmentos del polígono
 	for(segmento_it i=++segmentos.begin();i!=prev(segmentos.end());i++){
-		printf("(%f, %f) (%f, %f)\n", i->a.x,  i->a.y, i->b.x, i->b.y);
 		//Comprobamos si el anterior segmento coincide con el actual
 		if(segmentoRespectoSegmento(*i, *prev(i))!=coinciden){
-			cout<<"Encontrado un "<<segmentoRespectoSegmento(*i, *prev(i))<<endl;
 			return false;
 		}
 
 		//Comprobamos si algún segmento anterior cruza con el actual
 		for(segmento_it j=segmentos.begin();j!=prev(i); j++){
 			if(segmentoRespectoSegmento(*i, *j)!=nada ){
-				cout<<"Encontrado un (1)"<<segmentoRespectoSegmento(*i, *j)<<endl;
 				return false;
 			}
 		}
@@ -117,7 +116,6 @@ bool poligono2D<T>::validarPoligono(){
 	segmento_it i = prev(segmentos.end());
 	for(segmento_it j=next(segmentos.begin());j!=prev(i); j++){
 		if(segmentoRespectoSegmento(*i, *j)!=nada ){
-			cout<<"Encontrado un (2)"<<segmentoRespectoSegmento(*i, *j)<<endl;
 			return false;
 		}
 	}

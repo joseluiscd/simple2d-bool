@@ -1,4 +1,4 @@
-TESTS = intersection.out
+TESTS = intersection.out diferencia.out union.out generapoligono.out
 
 test: $(TESTS)
 

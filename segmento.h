@@ -119,10 +119,6 @@ punto2D<T> puntoCorte(const segmento2D<T>& a, const segmento2D<T>& b, int precis
 
 	toRet.y = det(a1,a2,a3,a4) / denom;
 
-	if(!puntoEnSegmento(toRet, a)){
-		throw nocortan(); //No se cortan
-	}
-
 	return toRet;
 }
 #endif

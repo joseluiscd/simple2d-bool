@@ -23,32 +23,25 @@ vector<poligono2D<T> >* cargarFicheroMif(const char* fichero, int precision, T t
 	while(!fich.eof()){
 		getline(fich, linea);
 		if(!datos){ //Leer cabecera
-			cout<<"Línea de cabecera"<<endl;
 			if(linea.find("Data")==0){ //Comenzamos a leer datos a la próxima
-				cout<<"A la siguiente, datos"<<endl;
 				datos = true;
 			} else if(linea.find("CoordSys")==0){ // Sólo nos interesan los bounds
-				cout<<"Vamos a leer los bordes"<<endl;
 				int pos = linea.find("Bounds ");
 				string bounds = linea.substr(pos+7);
 				stringstream ss(bounds);
 				ss>>ws>>descarta>>x1>>ws>>descarta>>ws>>y1>>ws>>descarta>>ws>>descarta>>ws>>x2>>ws>>descarta>>ws>>y2>>descarta;
-				cout<<"Bordes detectados: "<<x1<<","<<y1<<" / "<<x2<<","<<y2<<endl;
 			}
 		} else { //Leer datos
 			if(npuntos_restantes>1){ //Tenemos puntos para seguir leyendo
 				T x,y;
 				stringstream ss(linea);
 				ss>>ws>>x>>ws>>y;
-				cout<<"Leyendo un punto: "<<x<<","<<y<<endl;
 				punto2D<T> leido(x,y);
 				punto2D<T> punt = cambiaCoordenadas(leido, x1, y1, x2, y2, precision);
 				puntos->push_back(punt);
 				npuntos_restantes--;
 			} else if(linea.find("Region")==0){ //Comienza un polígono...
-				cout<<"Nuevo polígono"<<endl;
 				fich>>npuntos_restantes>>ws;
-				cout<<npuntos_restantes<<" puntos restantes\n";
 				if(puntos){
 					poligonos->push_back(poligono2D<T>(*puntos));
 					delete puntos;
@@ -74,4 +67,21 @@ vector<poligono2Df>* cargarFicheroMif_float(const char* fichero, int precision){
 
 vector<poligono2Dd>* cargarFicheroMif_double(const char* fichero, int precision){
 	return cargarFicheroMif(fichero, precision, (double)1);
+}
+
+poligono2D<float>* cargarFicheroFloat(const char* fichero){
+    ifstream fich(fichero);
+	string linea;
+	poligono2D<float>* ret;
+
+	list<punto2D<float> > puntos;
+	while(getline(fich, linea)){
+		float x,y;
+		stringstream ss(linea);
+		ss>>ws>>x>>ws>>y;
+		puntos.push_back(punto2D<float>(x,y));
+	}
+
+	ret = new poligono2D<float>(puntos);
+	return ret;
 }

@@ -28,8 +28,6 @@ vector<punto2D<T> >* puntosDeCorte(const poligono2D<T>& a, const poligono2D<T>& 
 		for(auto j = b.segmentos.begin(); j!=b.segmentos.end(); j++){
 			if(segmentoRespectoSegmento(*i, *j, precision)==cortan){
 				//calculamos el punto de corte
-				printf("(%f,%f - %f,%f)\n", i->a.x, i->a.y, i->b.x, i->b.y);
-				printf("(%f,%f - %f,%f)\n\n", j->a.x, j->a.y, j->b.x, j->b.y);
 				cortes_segmento.push_back(puntoCorte(*i, *j));
 			}
 		}
@@ -41,10 +39,6 @@ vector<punto2D<T> >* puntosDeCorte(const poligono2D<T>& a, const poligono2D<T>& 
 				vert1->push_back(cortes_segmento[j]);
 			}
 		}
-	}
-
-	for(auto it=vert1->begin(); it!=vert1->end(); it++){
-		printf("Punto de corte (%f,%f)\n", it->x, it->y);
 	}
 	return vert1;
 }
@@ -67,7 +61,7 @@ list<segmento2D<T> >* segmentosConPuntosDeCorte(const poligono2D<T>& a, const po
 }
 
 template<typename T>
-vector<segmento2D<T> >* interseccion(const poligono2D<T>& a, const poligono2D<T>& b, int precision=3){
+vector<segmento2D<T> >* interseccionPoligonos(const poligono2D<T>& a, const poligono2D<T>& b, int precision=3){
 	vector<segmento2D<T> >* ret = new vector<segmento2D<T> >();
 	list<segmento2D<T> >* segmentos1 = segmentosConPuntosDeCorte(a, b, precision);
 	list<segmento2D<T> >* segmentos2 = segmentosConPuntosDeCorte(b, a, precision);
@@ -90,6 +84,60 @@ vector<segmento2D<T> >* interseccion(const poligono2D<T>& a, const poligono2D<T>
 	delete segmentos2;
 
 	return ret;
+}
+
+template<typename T>
+vector<segmento2D<T> >* unionPoligonos(const poligono2D<T>& a, const poligono2D<T>& b, int precision=3){
+	vector<segmento2D<T> >* ret = new vector<segmento2D<T> >();
+	list<segmento2D<T> >* segmentos1 = segmentosConPuntosDeCorte(a, b, precision);
+	list<segmento2D<T> >* segmentos2 = segmentosConPuntosDeCorte(b, a, precision);
+
+	for(auto it=segmentos1->begin(); it!=segmentos1->end(); it++){
+		punto2D<T> pmedio = puntoMedio(*it);
+		if(!b.puntoEnPoligono(pmedio)){
+			ret->push_back(*it);
+		}
+	}
+
+	for(auto it=segmentos2->begin(); it!=segmentos2->end(); it++){
+		punto2D<T> pmedio = puntoMedio(*it);
+		if(!a.puntoEnPoligono(pmedio)){
+			ret->push_back(*it);
+		}
+	}
+
+	delete segmentos1;
+	delete segmentos2;
+
+	return ret;
+
+}
+
+template<typename T>
+vector<segmento2D<T> >* diferenciaPoligonos(const poligono2D<T>& a, const poligono2D<T>& b, int precision=3){
+	vector<segmento2D<T> >* ret = new vector<segmento2D<T> >();
+	list<segmento2D<T> >* segmentos1 = segmentosConPuntosDeCorte(a, b, precision);
+	list<segmento2D<T> >* segmentos2 = segmentosConPuntosDeCorte(b, a, precision);
+
+	for(auto it=segmentos1->begin(); it!=segmentos1->end(); it++){
+		punto2D<T> pmedio = puntoMedio(*it);
+		if(!b.puntoEnPoligono(pmedio)){
+			ret->push_back(*it);
+		}
+	}
+
+	for(auto it=segmentos2->begin(); it!=segmentos2->end(); it++){
+		punto2D<T> pmedio = puntoMedio(*it);
+		if(a.puntoEnPoligono(pmedio)){
+			ret->push_back(*it);
+		}
+	}
+
+	delete segmentos1;
+	delete segmentos2;
+
+	return ret;
+
 }
 
 #endif
