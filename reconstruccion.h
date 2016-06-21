@@ -55,7 +55,11 @@ vector<poligono2D<T>* >* reconstruye(const vector<segmento2D<T> >& segmentos, in
 
             if(signo(distanciaCuadrado(current.b, primero.a), precision)==0){
                 parada = true;
-                ret->push_back(new poligono2D<T>(puntos));
+                try{
+                    ret->push_back(new poligono2D<T>(puntos));
+                } catch(poligonoInvalido& e){
+                    //TODO: No ignorar la excepción, comprobar qué pasa exactamente
+                }
                 puntos.clear();
             }
 
