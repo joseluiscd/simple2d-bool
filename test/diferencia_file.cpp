@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include "dump_poligono.h"
 #include "loader_poligono.h"
+#include "reconstruccion.h"
 
 using namespace std;
 int main(int argc, char* argv[]) {
@@ -17,9 +18,14 @@ int main(int argc, char* argv[]) {
     poligono2Df* poligono2 = cargarFicheroFloat(argv[2]);
 
     auto x = diferenciaPoligonos(*poligono1, *poligono2);
+    auto y = reconstruye(*x);
+    delete x;
 
-    for(auto i : *x){
-        printf("%f\t%f\t%f\t%f\n", i.a.x, i.a.y, i.b.x, i.b.y);
+    for(auto pol : *y){
+        for (auto i: pol->vertices){
+            printf("%f\t%f\n", i.x, i.y);
+        }
+        printf("\n");
     }
     return 0;
 }

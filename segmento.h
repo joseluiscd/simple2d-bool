@@ -89,6 +89,16 @@ inline T det(T a, T b, T c, T d){
 	return (a*d - b*c);
 }
 
+template<typename T>
+T cosenoAngulo(const segmento2D<T>& a, const segmento2D<T>& b){
+	return ((a.b.x-a.a.x) * (b.b.x-b.a.x) + (a.b.y-a.a.y) * (b.b.y-b.a.y))/(sqrt(distanciaCuadrado(a.a, a.b))*sqrt(distanciaCuadrado(b.a, b.b)));
+}
+
+template<typename T>
+int orientacion(const segmento2D<T>& a, const segmento2D<T>& b, int precision=3){
+	return signo(det(a.b.x-a.a.x, a.b.y-a.a.y, b.b.x-b.a.x, b.b.y-b.a.y), precision);
+}
+
 //Devuelve el punto de corte entre los 2 segmentos
 template<typename T>
 punto2D<T> puntoCorte(const segmento2D<T>& a, const segmento2D<T>& b, int precision=3){
