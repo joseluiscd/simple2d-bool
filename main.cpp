@@ -30,12 +30,12 @@ int main(int argc, char *argv[]){
 
 	punto2Df puntos[] = {punto2Df(0,0), punto2Df(1,0), punto2Df(1,1), punto2Df(0,1), punto2Df(5,5)};
 	list<punto2Df> vert(puntos, puntos + sizeof(puntos) / sizeof(punto2Df));
-	poligono2Df pol(vert);
+	poligono2Df pol(vert.begin(), vert.end());
 	cout<<pol.puntoEnPoligono(punto2Df(1,1.0001),1)<<endl;
 
 
 	vector<poligono2Dd>* mun1 = cargarFicheroMif_double("datos/municipio1.mif", 9);
 	vector<poligono2Dd>* mun2 = cargarFicheroMif_double("datos/municipio2.mif", 9);
 
-	
+
 }

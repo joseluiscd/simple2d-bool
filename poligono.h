@@ -27,20 +27,29 @@ class poligono2D{
 	typedef segmento2D<T> segmento;
 	typedef poligono2D<T> poligono;
 
-	typedef typename list<punto>::iterator punto_it;
-	typedef typename list<punto>::const_iterator punto_it_c;
-	typedef typename list<segmento>::iterator segmento_it;
-
 	public:
 	list<punto> vertices;
 	list<segmento> segmentos;
 
 	public:
 	void construirSegmentos();
+	void construirVertices();
 	bool puntoEnPoligono(punto p, int precision=3) const;
 
 	poligono2D();
-	poligono2D(const list<punto>& v);
+
+	template< template<typename, typename> typename container, typename A >
+	poligono2D(const container<punto2D<T>, A>& v);
+
+	template< template<typename, typename> typename container, typename A >
+	poligono2D(const container<segmento2D<T>, A>& v);
+
+	template< template<typename> typename iterator_t >
+	poligono2D(const iterator_t<punto2D<T> >& inicio, const iterator_t<punto2D<T> >& fin);
+
+	template< template<typename> typename iterator_t >
+	poligono2D(const iterator_t<segmento2D<T> >& inicio, const iterator_t<segmento2D<T> >& fin);
+
 	poligono2D(const poligono2D<T>& otro);
 	virtual ~poligono2D();
 
@@ -57,39 +66,52 @@ poligono2D<T>::poligono2D():
 	{}
 
 template<typename T>
-poligono2D<T>::poligono2D(const list<punto>& v):
-	segmentos()
-	{
-		if(v.size()==1){
-			//Es un punto
-			throw punto2D<T>(v.front());
-		} else if(v.size()==2){
-			//Es un segmento
-			throw segmento2D<T>(*v.begin(), *v.rbegin());
-		}
+template<template<typename, typename> typename container, typename A >
+poligono2D<T>::poligono2D(const container<punto2D<T>, A>& v):
+	poligono2D(v.begin(), v.end())
+{
+}
 
-		for(punto_it_c i=v.begin();i!=v.end();i++){
-			vertices.push_back(*i);
-		}
-		construirSegmentos();
-	}
+template<typename T>
+template<template<typename, typename> typename container, typename A >
+poligono2D<T>::poligono2D(const container<segmento2D<T>, A>& v):
+	poligono2D(v.begin(), v.end())
+{
+}
 
 template<typename T>
 poligono2D<T>::poligono2D(const poligono2D<T>& otro):
 	vertices(otro.vertices),
 	segmentos(otro.segmentos)
 	{}
-// O(n)
+
+template<typename T>
+template< template<typename> typename iterator_t >
+poligono2D<T>::poligono2D(const iterator_t<punto2D<T> >& inicio, const iterator_t<punto2D<T> >& fin)
+	: vertices(), segmentos()
+{
+	for(iterator_t<punto2D<T> > i=inicio; i!=fin; i++){
+		vertices.push_back(*i);
+	}
+	construirSegmentos();
+}
+
 template<typename T>
 void poligono2D<T>::construirSegmentos(){
-	for(punto_it i=++vertices.begin();i!=vertices.end();i++){
+	for(auto i=++vertices.begin();i!=vertices.end();i++){
 		segmentos.push_back(segmento(*prev(i), *i));
 	}
 	//Unimos con el principio (Nos aseguramos de que el polígono es cerrado)
 	segmentos.push_back(segmento(vertices.back(), vertices.front()));
 }
 
-// O(n)
+template<typename T>
+void poligono2D<T>::construirVertices(){
+	for(auto it=segmentos.begin(); it!=segmentos.end(); ++it){
+		vertices.push_back(it->a);
+	}
+}
+
 template<typename T>
 bool poligono2D<T>::puntoEnPoligono(punto p, int precision) const {
 	punto origen(0,0);

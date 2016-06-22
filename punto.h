@@ -14,13 +14,19 @@ template<typename T>
 struct punto2D{
 	T x;
 	T y;
+
+	static int precision;
+
 	punto2D(const T& ax, const T& ay): x(ax), y(ay){};
 	punto2D(): x(0), y(0){};
 
 	bool operator==(const punto2D<T>& other){
-		return this->x==other.x && this->y==other.y;
+		return signo(this->x-other.x, precision) && signo(this->y, other.y, precision);
 	}
 };
+
+template<typename T>
+int punto2D<T>::precision = 6;
 
 /**
 * Cambia el sistema de coordenadas.
@@ -59,4 +65,5 @@ template<typename T>
 T distanciaCuadrado(const punto2D<T>& a, const punto2D<T>& b){
 	return (a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y);
 }
+
 #endif
