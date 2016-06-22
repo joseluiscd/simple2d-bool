@@ -59,6 +59,8 @@ vector<poligono2D<T>* >* reconstruye(const vector<segmento2D<T> >& segmentos, in
                     ret->push_back(new poligono2D<T>(puntos));
                 } catch(poligonoInvalido& e){
                     //TODO: No ignorar la excepción, comprobar qué pasa exactamente
+                    int *a = 0;
+                    *a = 3; //Provocamos un Segmentation Fault
                 }
                 puntos.clear();
             }

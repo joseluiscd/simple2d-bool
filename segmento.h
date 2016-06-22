@@ -42,7 +42,7 @@ T areaSignada(const segmento2D<T>& a, const punto2D<T>& c){
 
 // O(1)
 template<typename T>
-SegmentoSegmento segmentoRespectoSegmento(const segmento2D<T>& a, const segmento2D<T>& b, int precision=3){
+SegmentoSegmento segmentoRespectoSegmento(const segmento2D<T>& a, const segmento2D<T>& b, int precision=6){
 	//Son iguales??
 	int x11 = signo(a.a.x, b.a.x, precision);
 	int x12 = signo(a.a.x, b.b.x, precision);

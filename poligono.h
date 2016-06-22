@@ -37,7 +37,6 @@ class poligono2D{
 
 	public:
 	void construirSegmentos();
-	bool validarPoligono();
 	bool puntoEnPoligono(punto p, int precision=3) const;
 
 	poligono2D();
@@ -88,44 +87,6 @@ void poligono2D<T>::construirSegmentos(){
 	}
 	//Unimos con el principio (Nos aseguramos de que el polígono es cerrado)
 	segmentos.push_back(segmento(vertices.back(), vertices.front()));
-
-	//¿Es correcto el polígono?
-	if(!validarPoligono()){
-		throw poligonoInvalido();
-	}
-}
-
-// O(n^2)
-template<typename T>
-bool poligono2D<T>::validarPoligono(){
-	//Recorremos los segmentos del polígono
-	for(segmento_it i=++segmentos.begin();i!=prev(segmentos.end());i++){
-		//Comprobamos si el anterior segmento coincide con el actual
-		if(segmentoRespectoSegmento(*i, *prev(i))!=coinciden){
-			return false;
-		}
-
-		//Comprobamos si algún segmento anterior cruza con el actual
-		for(segmento_it j=segmentos.begin();j!=prev(i); j++){
-			if(segmentoRespectoSegmento(*i, *j)!=nada ){
-				return false;
-			}
-		}
-	}
-
-	segmento_it i = prev(segmentos.end());
-	for(segmento_it j=next(segmentos.begin());j!=prev(i); j++){
-		if(segmentoRespectoSegmento(*i, *j)!=nada ){
-			return false;
-		}
-	}
-
-	//Comprobamos si el último segmento coincide con el primero (si es cerrado)
-	if(segmentoRespectoSegmento(*i, *segmentos.begin())!=coinciden){
-		return false;
-	}
-
-	return true;
 }
 
 // O(n)
