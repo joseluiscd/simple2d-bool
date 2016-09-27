@@ -1,5 +1,5 @@
 *.o
-*.txt
+test/*.txt
 *.exe
 *.out
 datos
