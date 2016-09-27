@@ -1,12 +1,12 @@
 #include <list>
 #include <cmath>
 #include "poligono.h"
-#include "punto.h"
+#include "point.h"
 
 #define PI 3.14159265
 
 poligono2D<float>* poligonoRandom(float radio, float ruido, int npuntos){
-    list<punto2D<float> > puntos;
+    list<point2d> puntos;
     float paso = (2*PI)/npuntos;
 
     for(int i=0;i<npuntos;i++){
@@ -14,7 +14,7 @@ poligono2D<float>* poligonoRandom(float radio, float ruido, int npuntos){
 
         float x = (random + radio) * cos(paso*i);
         float y = (random + radio) * sin(paso*i);
-        puntos.push_back(punto2D<float>(x,y));
+        puntos.push_back(point2d(x,y));
     }
 
     return new poligono2D<float>(puntos);

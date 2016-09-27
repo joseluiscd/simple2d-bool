@@ -1,6 +1,6 @@
 #include "poligono.h"
 #include "loader_poligono.h"
-#include "punto.h"
+#include "point.h"
 #include <fstream>
 #include <string>
 #include <sstream>

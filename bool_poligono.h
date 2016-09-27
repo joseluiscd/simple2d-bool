@@ -1,5 +1,5 @@
 #include "poligono.h"
-#include "segmento.h"
+#include "segment.h"
 #include <list>
 #include <vector>
 #include <algorithm>

@@ -1,5 +1,5 @@
 #include "poligono.h"
-#include "punto.h"
+#include "point.h"
 #include "bool_poligono.h"
 #include <list>
 #include <iostream>

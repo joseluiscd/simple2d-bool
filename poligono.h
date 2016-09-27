@@ -1,6 +1,6 @@
-#include "punto.h"
-#include "segmento.h"
-#include "triangulo.h"
+#include "point.h"
+#include "segment.h"
+#include "triangle.h"
 
 #include <list>
 #include <stdexcept>
