@@ -5,8 +5,8 @@
 
 #define PI 3.14159265
 
-poligono2D<float>* poligonoRandom(float radio, float ruido, int npuntos){
-    list<point2d> puntos;
+polygon2d* poligonoRandom(float radio, float ruido, int npuntos){
+    std::list<point2d> puntos;
     float paso = (2*PI)/npuntos;
 
     for(int i=0;i<npuntos;i++){
@@ -17,5 +17,5 @@ poligono2D<float>* poligonoRandom(float radio, float ruido, int npuntos){
         puntos.push_back(point2d(x,y));
     }
 
-    return new poligono2D<float>(puntos);
+    return new polygon2d(puntos);
 }

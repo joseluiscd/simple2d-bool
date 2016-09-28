@@ -3,7 +3,7 @@
 
 #include "polygon.h"
 
-poligono2D<float>* poligonoRandom(float radio, float ruido, int puntos);
+polygon2d* poligonoRandom(float radio, float ruido, int puntos);
 
 
 #endif
