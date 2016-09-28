@@ -1,37 +1,37 @@
 #include <list>
 #include <vector>
-#include "reconstruccion.h"
+#include "reconstruction.h"
 #include "polygon.h"
 #include "bool_polygon.h"
 
 using namespace std;
 
-poligono2D<float>* subtriangulo(poligono2D<float>* triangulo){
-    list<punto2D<float> > puntos;
+polygon2d* subtriangulo(polygon2d* triangulo){
+    list<point2d > puntos;
     for(auto s: triangulo->segmentos){
         puntos.push_back(puntoMedio(s));
     }
 
-    return new poligono2D<float>(puntos);
+    return new polygon2d(puntos);
 }
 
-list<poligono2D<float>* > triangulo(int iterations){
-    list<poligono2D<float>* > cola;
+list<polygon2d* > triangulo(int iterations){
+    list<polygon2d* > cola;
 
-    list<punto2D<float> > primero;
-    primero.push_back(punto2D<float>(0, 1));
-    primero.push_back(punto2D<float>(-1, -1));
-    primero.push_back(punto2D<float>(1, -1));
+    list<point2d > primero;
+    primero.push_back(point2d(0, 1));
+    primero.push_back(point2d(-1, -1));
+    primero.push_back(point2d(1, -1));
 
-    cola.push_back(new poligono2D<float>(primero));
+    cola.push_back(new polygon2d(primero));
 
     for(int i=0; i<iterations; i++){
-        poligono2D<float>* actual = cola.front();
+        polygon2d* actual = cola.front();
         cola.pop_front();
 
-        poligono2D<float>* resta = subtriangulo(actual);
-        vector<segmento2D<float> >* segmentos = diferenciaPoligonos(*actual, *resta);
-        vector<poligono2D<float>* >* nuevos = reconstruye(*segmentos);
+        polygon2d* resta = subtriangulo(actual);
+        vector<segment2d >* segmentos = diferenciaPoligonos(*actual, *resta);
+        vector<polygon2d* >* nuevos = reconstruye(*segmentos);
 
         delete resta;
         delete segmentos;

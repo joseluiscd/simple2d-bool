@@ -11,7 +11,7 @@ int main(int argc, char* argv[]){
     float ruido = atof(argv[1]);
     int lados = atoi(argv[2]);
 
-    poligono2D<float>* x = poligonoRandom(1, ruido, lados);
+    polygon2d* x = poligonoRandom(1, ruido, lados);
     for(auto i : x->vertices){
         printf("%f\t%f\n", i.x, i.y);
     }

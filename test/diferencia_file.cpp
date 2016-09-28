@@ -6,7 +6,7 @@
 #include <cstdlib>
 #include "dump_polygon.h"
 #include "loader_polygon.h"
-#include "reconstruccion.h"
+#include "reconstruction.h"
 
 using namespace std;
 int main(int argc, char* argv[]) {
@@ -14,8 +14,8 @@ int main(int argc, char* argv[]) {
         puts("Se necesitan 2 argumentos (ficheros con polígonos)");
         exit(0);
     }
-    poligono2Df* poligono1 = cargarFicheroFloat(argv[1]);
-    poligono2Df* poligono2 = cargarFicheroFloat(argv[2]);
+    polygon2d* poligono1 = cargarFicheroFloat(argv[1]);
+    polygon2d* poligono2 = cargarFicheroFloat(argv[2]);
 
     auto x = diferenciaPoligonos(*poligono1, *poligono2);
     auto y = reconstruye(*x);
