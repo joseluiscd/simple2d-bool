@@ -1,4 +1,4 @@
-#include "poligono.h"
+#include "polygon.h"
 #include "segment.h"
 #include <list>
 #include <vector>

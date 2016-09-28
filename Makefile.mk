@@ -1,5 +1,5 @@
 OBJECTS = main.o signo.o point.o segment.o loader_poligono.o random_poligono.o triangle.o
-HEADERS = poligono.h point.h segment.h triangle.h signo.h bool_poligono.h reconstruccion.h
+HEADERS = polygon.h point.h segment.h triangle.h signo.h bool_polygon.h reconstruccion.h
 
 .PHONY: test
 

@@ -1,5 +1,5 @@
 #include <vector>
-#include "poligono.h"
+#include "polygon.h"
 
 #ifndef _LOADER_POLIGONO_H
 #define _LOADER_POLIGONO_H

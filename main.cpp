@@ -2,9 +2,9 @@
 #include "triangle.h"
 #include "segment.h"
 #include "signo.h"
-#include "poligono.h"
-#include "loader_poligono.h"
-#include "bool_poligono.h"
+#include "polygon.h"
+#include "loader_polygon.h"
+#include "bool_polygon.h"
 
 #include <algorithm>
 #include <iostream>

@@ -1,11 +1,11 @@
-#include "poligono.h"
+#include "polygon.h"
 #include "point.h"
-#include "bool_poligono.h"
+#include "bool_polygon.h"
 #include <list>
 #include <iostream>
 #include <cstdlib>
-#include "dump_poligono.h"
-#include "loader_poligono.h"
+#include "dump_polygon.h"
+#include "loader_polygon.h"
 
 using namespace std;
 int main() {

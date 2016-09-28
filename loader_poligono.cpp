@@ -1,5 +1,5 @@
-#include "poligono.h"
-#include "loader_poligono.h"
+#include "polygon.h"
+#include "loader_polygon.h"
 #include "point.h"
 #include <fstream>
 #include <string>

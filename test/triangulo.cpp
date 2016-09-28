@@ -1,8 +1,8 @@
 #include <list>
 #include <vector>
 #include "reconstruccion.h"
-#include "poligono.h"
-#include "bool_poligono.h"
+#include "polygon.h"
+#include "bool_polygon.h"
 
 using namespace std;
 

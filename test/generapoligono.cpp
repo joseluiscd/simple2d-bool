@@ -1,5 +1,5 @@
-#include "poligono.h"
-#include "random_poligono.h"
+#include "polygon.h"
+#include "random_polygon.h"
 
 int main(int argc, char* argv[]){
     if(argc!=3){

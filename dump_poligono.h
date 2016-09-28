@@ -1,7 +1,7 @@
 #ifndef _DUMP_POLIGONO_H
 #define _DUMP_POLIGONO_H
 
-#include "poligono.h"
+#include "polygon.h"
 #include <fstream>
 
 template<typename T>

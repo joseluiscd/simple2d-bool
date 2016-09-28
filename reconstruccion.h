@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <list>
-#include "poligono.h"
+#include "polygon.h"
 
 using namespace std;
 

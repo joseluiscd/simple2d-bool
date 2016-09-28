@@ -10,7 +10,7 @@ public:
 
 	static int precision;
 
-	point2d(const double& ax, const double& ay): x(ax), y(ay){};
+    point2d(const double& ax, const double& ay): x(ax), y(ay){};
 	point2d(): x(0), y(0){};
 
 	bool operator==(const point2d& other){

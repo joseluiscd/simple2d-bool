@@ -1,6 +1,6 @@
 #include <list>
 #include <cmath>
-#include "poligono.h"
+#include "polygon.h"
 #include "point.h"
 
 #define PI 3.14159265
