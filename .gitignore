@@ -5,7 +5,16 @@ test/*.txt
 datos
 *.dll
 *.so
+*.a
 main
 .cproject
 .project
 .settings
+
+CMakeCache.txt
+CMakeFiles
+Makefile
+CMakeScripts
+cmake_install.cmake
+install_manifest.txt
+CTestTestfile.cmake
