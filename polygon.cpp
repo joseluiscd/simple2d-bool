@@ -55,7 +55,8 @@ inclusionResult polygon2d::puntoEnPoligono(point2d p, int precision) const {
 		case 2: return INSIDE_POSITIVE;
 		case -2: return INSIDE_NEGATIVE;
 
-		default: throw invalidPolygon();
+		default:
+		throw invalidPolygon("Point in polygon returned unexpected result.");
 	}
 
 }

@@ -6,12 +6,22 @@
 #include <iostream>
 #include <map>
 #include <fstream>
+#include <string>
 
 #include "triangle.h"
 #include "segment.h"
 #include "point.h"
 
 class invalidPolygon: public std::exception {
+private:
+	const char* what_str;
+public:
+	invalidPolygon(const char* _what="Invalid polygon"): what_str(_what) {};
+
+	const char* what() const noexcept {
+		return what_str;
+	}
+
 };
 
 class polygon2d {
