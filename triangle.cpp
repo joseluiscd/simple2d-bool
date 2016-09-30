@@ -34,7 +34,7 @@ inclusionResult puntoEnTriangulo(const point2d& p, const triangle2d& t, int prec
        (!c && puntoEnSegmento(p, segment2d(t.c, t.a)))){
 			return BORDER;
 	}
-	printf("NOOP\n");
+
 	//Not on a segment...
 	return OUTSIDE;
 
