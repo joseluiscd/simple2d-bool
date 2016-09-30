@@ -6,3 +6,6 @@ datos
 *.dll
 *.so
 main
+.cproject
+.project
+.settings
