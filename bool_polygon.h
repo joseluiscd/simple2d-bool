@@ -13,14 +13,14 @@ public:
 	const point2d* punto;
 
 	bool operator() (const point2d &i, const point2d &j) {
-		return (distanciaCuadrado(i, *punto)<distanciaCuadrado(j, *punto));
+		return (squaredDistance(i, *punto)<squaredDistance(j, *punto));
 	}
 
 	sortPuntos(const point2d *p): punto(p) {};
 };
 
 
-std::vector<point2d>* puntosDeCorte(const polygon2d &a, const polygon2d &b, int precision=3);
+std::vector<point2d>* intersectionPoints(const polygon2d &a, const polygon2d &b, int precision=3);
 std::list<segment2d>* segmentosConPuntosDeCorte(const polygon2d &a, const polygon2d &b, int precision=3);
 std::vector<segment2d>* interseccionPoligonos(const polygon2d &a, const polygon2d &b, int precision=3);
 std::vector<segment2d>* unionPoligonos(const polygon2d &a, const polygon2d &b, int precision=3);

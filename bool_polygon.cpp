@@ -1,10 +1,10 @@
 #include "bool_polygon.h"
 
-std::vector<point2d>* puntosDeCorte(const polygon2d &a, const polygon2d &b, int precision){
+std::vector<point2d>* intersectionPoints(const polygon2d &a, const polygon2d &b, int precision){
 	std::vector<point2d>* vert1 = new std::vector<point2d>();
-	for(auto i = a.segmentos.begin(); i != a.segmentos.end(); i++){
+	for(auto i = a.segments.begin(); i != a.segments.end(); i++){
 		std::vector<point2d> cortes_segmento;
-		for(auto j = b.segmentos.begin(); j!=b.segmentos.end(); j++){
+		for(auto j = b.segments.begin(); j!=b.segments.end(); j++){
 			if(segmentoRespectoSegmento(*i, *j, precision)==cortan){
 				//calculamos el punto de corte
 				cortes_segmento.push_back(puntoCorte(*i, *j));
@@ -23,7 +23,7 @@ std::vector<point2d>* puntosDeCorte(const polygon2d &a, const polygon2d &b, int 
 }
 
 std::list<segment2d>* segmentosConPuntosDeCorte(const polygon2d &a, const polygon2d &b, int precision){
-	std::vector<point2d>* vert1 = puntosDeCorte(a, b, precision);
+	std::vector<point2d>* vert1 = intersectionPoints(a, b, precision);
 
 	std::list<segment2d>* ret = new std::list<segment2d>();
 
@@ -45,14 +45,14 @@ std::vector<segment2d>* interseccionPoligonos(const polygon2d &a, const polygon2
 
 	for(auto it=segmentos1->begin(); it!=segmentos1->end(); it++){
 		point2d pmedio = puntoMedio(*it);
-		if(b.puntoEnPoligono(pmedio)){
+		if(b.pointInPolygon(pmedio)){
 			ret->push_back(*it);
 		}
 	}
 
 	for(auto it=segmentos2->begin(); it!=segmentos2->end(); it++){
 		point2d pmedio = puntoMedio(*it);
-		if(a.puntoEnPoligono(pmedio)){
+		if(a.pointInPolygon(pmedio)){
 			ret->push_back(*it);
 		}
 	}
@@ -70,14 +70,14 @@ std::vector<segment2d>* unionPoligonos(const polygon2d &a, const polygon2d &b, i
 
 	for(auto it=segmentos1->begin(); it!=segmentos1->end(); it++){
 		point2d pmedio = puntoMedio(*it);
-		if(!b.puntoEnPoligono(pmedio)){
+		if(!b.pointInPolygon(pmedio)){
 			ret->push_back(*it);
 		}
 	}
 
 	for(auto it=segmentos2->begin(); it!=segmentos2->end(); it++){
 		point2d pmedio = puntoMedio(*it);
-		if(!a.puntoEnPoligono(pmedio)){
+		if(!a.pointInPolygon(pmedio)){
 			ret->push_back(*it);
 		}
 	}
@@ -96,14 +96,14 @@ std::vector<segment2d>* diferenciaPoligonos(const polygon2d &a, const polygon2d 
 
 	for(auto it=segmentos1->begin(); it!=segmentos1->end(); it++){
 		point2d pmedio = puntoMedio(*it);
-		if(!b.puntoEnPoligono(pmedio)){
+		if(!b.pointInPolygon(pmedio)){
 			ret->push_back(*it);
 		}
 	}
 
 	for(auto it=segmentos2->begin(); it!=segmentos2->end(); it++){
 		point2d pmedio = puntoMedio(*it);
-		if(a.puntoEnPoligono(pmedio)){
+		if(a.pointInPolygon(pmedio)){
 			ret->push_back(reves(*it));
 		}
 	}

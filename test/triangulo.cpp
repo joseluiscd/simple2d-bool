@@ -8,7 +8,7 @@ using namespace std;
 
 polygon2d* subtriangulo(polygon2d* triangulo){
     list<point2d > puntos;
-    for(auto s: triangulo->segmentos){
+    for(auto s: triangulo->segments){
         puntos.push_back(puntoMedio(s));
     }
 

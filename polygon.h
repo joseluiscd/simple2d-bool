@@ -30,12 +30,11 @@ private:
 
 public:
 	std::list<point2d> vertices;
-	std::list<segment2d> segmentos;
+	std::list<segment2d> segments;
 
 public:
-	void construirSegmentos();
-	void construirVertices();
-	inclusionResult puntoEnPoligono(point2d p, int precision=3) const;
+	void buildSegments();
+	inclusionResult pointInPolygon(point2d p, int precision=3) const;
 
 	polygon2d();
 
@@ -47,7 +46,7 @@ public:
 	polygon2d(const container<point2d, A>& v);
 
 	template< template<class> class iterator_t >
-	polygon2d(const iterator_t<point2d >& inicio, const iterator_t<point2d >& fin);
+	polygon2d(const iterator_t<point2d >& start, const iterator_t<point2d >& end);
 
 	polygon2d(const polygon2d& other);
 	virtual ~polygon2d();
@@ -62,12 +61,12 @@ polygon2d::polygon2d(const container<point2d, A>& v):
 }
 
 template< template<class> class iterator_t >
-polygon2d::polygon2d(const iterator_t<point2d >& inicio, const iterator_t<point2d >& fin)
-	: vertices(), segmentos()
+polygon2d::polygon2d(const iterator_t<point2d >& start, const iterator_t<point2d >& end)
+	: vertices(), segments()
 {
-	for(iterator_t<point2d > i=inicio; i!=fin; i++){
+	for(iterator_t<point2d > i=start; i!=end; i++){
 		vertices.push_back(*i);
 	}
-	construirSegmentos();
+	buildSegments();
 }
 #endif

@@ -2,7 +2,7 @@
 
 int point2d::precision = 6;
 
-point2d cambiaCoordenadas(const point2d& point, const double& x1, const double& y1, const double& x2, const double& y2, int precision){
+point2d changeCoordinateSystem(const point2d& point, const double& x1, const double& y1, const double& x2, const double& y2, int precision){
 	point2d toRet;
 
 	double x = (point.x-x1)/(x2-x1);
@@ -18,21 +18,21 @@ point2d cambiaCoordenadas(const point2d& point, const double& x1, const double& 
 }
 
 
-point2d puntoMedio(const point2d& a, const point2d& b){
+point2d middlePoint(const point2d& a, const point2d& b){
 	point2d toRet;
 	toRet.x = (a.x + b.x)/2;
 	toRet.y = (a.y + b.y)/2;
 	return toRet;
 }
 
-double areaSignada(const point2d& a, const point2d& b, const point2d& c){
+double middleSignedArea(const point2d& a, const point2d& b, const point2d& c){
 	return (a.x*b.y)+(a.y*c.x)+(b.x*c.y)-(c.x*b.y)-(b.x*a.y)-(a.x*c.y);
 }
 
-double distanciaCuadrado(const point2d& a, const point2d& b){
+double squaredDistance(const point2d& a, const point2d& b){
 	return (a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y);
 }
 
-double distancia(const point2d& a, const point2d& b){
-    return std::sqrt(distanciaCuadrado(a, b));
+double distance(const point2d& a, const point2d& b){
+    return std::sqrt(squaredDistance(a, b));
 }

@@ -29,7 +29,7 @@ std::vector<polygon2d>* cargarFicheroMif(const char* fichero, int precision){
 				stringstream ss(linea);
 				ss>>ws>>x>>ws>>y;
 				point2d leido(x,y);
-				point2d punt = cambiaCoordenadas(leido, x1, y1, x2, y2, precision);
+				point2d punt = changeCoordinateSystem(leido, x1, y1, x2, y2, precision);
 				puntos->push_back(punt);
 				npuntos_restantes--;
 			} else if(linea.find("Region")==0){ //Comienza un polígono...

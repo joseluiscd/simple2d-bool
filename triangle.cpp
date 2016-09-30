@@ -2,7 +2,7 @@
 
 // O(1)
 double areaSignada(const triangle2d& a){
-	return areaSignada(a.a, a.b, a.c);
+	return middleSignedArea(a.a, a.b, a.c);
 }
 
 /**
@@ -10,11 +10,9 @@ double areaSignada(const triangle2d& a){
 * o no (0)
 */
 inclusionResult puntoEnTriangulo(const point2d& p, const triangle2d& t, int precision){
-	int a = signo(areaSignada(t.a, t.b, p), precision);
-	int b = signo(areaSignada(t.b, t.c, p), precision);
-	int c = signo(areaSignada(t.c, t.a, p), precision);
-
-	printf("%d, %d, %d\n", a, b, c);
+	int a = sign(middleSignedArea(t.a, t.b, p), precision);
+	int b = sign(middleSignedArea(t.b, t.c, p), precision);
+	int c = sign(middleSignedArea(t.c, t.a, p), precision);
 
 	if(a && b && c){
 		//None of the signed areas is 0, it's either inside or outside (no border)

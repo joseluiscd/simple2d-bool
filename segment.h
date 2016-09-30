@@ -6,7 +6,6 @@
 
 #include "math.h"
 #include "point.h"
-#include "signo.h"
 
 
 enum SegmentoSegmento{

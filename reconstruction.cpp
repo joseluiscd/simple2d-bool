@@ -8,7 +8,7 @@ vector<polygon2d* >* reconstruye(const vector<segment2d >& segmentos, int precis
 
     //Eliminamos los puntos
     for(auto it=restantes.begin(); it!=restantes.end(); it++){
-        if(signo(distanciaCuadrado(it->b, it->a), precision)==0){
+        if(sign(squaredDistance(it->b, it->a), precision)==0){
             //Es un punto
             it = prev(restantes.erase(it));
         }
@@ -27,7 +27,7 @@ vector<polygon2d* >* reconstruye(const vector<segment2d >& segmentos, int precis
             auto candidato = restantes.end();
             double coseno = -1;
             for(auto it=restantes.begin(); it!=restantes.end(); it++){
-                if(signo(distanciaCuadrado(current.b, it->a), precision)==0){
+                if(sign(squaredDistance(current.b, it->a), precision)==0){
                     if(candidato==restantes.end()){
                         candidato = it;
                     } else {
@@ -47,7 +47,7 @@ vector<polygon2d* >* reconstruye(const vector<segment2d >& segmentos, int precis
             puntos.push_back(candidato->a);
             current = *candidato;
 
-            if(signo(distanciaCuadrado(current.b, primero.a), precision)==0){
+            if(sign(squaredDistance(current.b, primero.a), precision)==0){
                 parada = true;
                 ret->push_back(new polygon2d(puntos));
 

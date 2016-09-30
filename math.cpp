@@ -4,10 +4,32 @@ double dotProduct(double x1, double y1, double x2, double y2){
     return x1*x2 + y1*y2;
 }
 
-double dotProduct(const point2d &point1, const point2d &point2){
-    return dotProduct(point1.x, point1.y, point2.x, point2.y);
-}
-
 double determinant(double a, double b, double c, double d){
 	return (a*d - b*c);
+}
+
+int sign(int a){
+	if(a > 0){
+		return 1;
+	} else if (a < 0){
+		return -1;
+	} else {
+		return 0;
+	}
+}
+
+int sign(double a, double b, int precision){
+	return sign(a-b, precision);
+}
+
+int sign(double a, int precision){
+	long p = std::pow(10, -precision);
+
+	if(a > p){
+		return 1;
+	} else if (a < p){
+		return -1;
+	} else {
+		return 0;
+	}
 }

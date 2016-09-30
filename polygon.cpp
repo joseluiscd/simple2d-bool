@@ -4,17 +4,18 @@ polygon2d::~polygon2d(){}
 
 
 polygon2d::polygon2d():
-	vertices(), segmentos()
+	minX(0), minY(0), maxX(0), maxY(0), vertices(), segments()
 	{}
 
 
 polygon2d::polygon2d(const polygon2d& other):
+	minX(0), minY(0), maxX(0), maxY(0),
 	vertices(other.vertices),
-	segmentos(other.segmentos)
+	segments(other.segments)
 	{}
 
 
-void polygon2d::construirSegmentos(){
+void polygon2d::buildSegments(){
 	minX = vertices.front().x;
 	minY = vertices.front().y;
 	maxX = vertices.front().x;
@@ -26,15 +27,15 @@ void polygon2d::construirSegmentos(){
 		if(i->x > maxX) maxX = i->x;
 		if(i->y > maxY) maxY = i->y;
 
-		segmentos.push_back(segment2d(*prev(i), *i));
+		segments.push_back(segment2d(*prev(i), *i));
 	}
 
 	//Unimos con el principio (Nos aseguramos de que el polígono es cerrado)
-	segmentos.push_back(segment2d(vertices.back(), vertices.front()));
+	segments.push_back(segment2d(vertices.back(), vertices.front()));
 
 }
 
-inclusionResult polygon2d::puntoEnPoligono(point2d p, int precision) const {
+inclusionResult polygon2d::pointInPolygon(point2d p, int precision) const {
 
 	int aX = sign(p.x, minX, precision);
 	int aY = sign(p.y, minY, precision);
@@ -60,7 +61,7 @@ inclusionResult polygon2d::puntoEnPoligono(point2d p, int precision) const {
 
 	int sum = 0;
 
-	for(auto current=segmentos.begin(); current!=segmentos.end(); current++){
+	for(auto current=segments.begin(); current!=segments.end(); current++){
 		//Check if point is in a segment
 		if(puntoEnSegmento(p, *current)){
 			return BORDER;
