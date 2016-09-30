@@ -28,11 +28,34 @@ void polygon2d::construirVertices(){
 	}
 }
 
-bool polygon2d::puntoEnPoligono(point2d p, int precision) const {
-	point2d origen(0,0);
-	int suma = 0;
-	for(auto i=segmentos.begin();i!=segmentos.end();i++){
-		suma+= signo(puntoDentroDeTriangulo(triangle2d(i->a, i->b, origen),p, precision));
+inclusionResult polygon2d::puntoEnPoligono(point2d p, int precision) const {
+	point2d origin(0,0);
+
+	int sum = 0;
+
+	for(auto current=segmentos.begin(); current!=segmentos.end(); current++){
+		//Check if point is in a segment
+		if(puntoEnSegmento(p, *current)){
+			return BORDER;
+		}
+
+		//If it's not in a border, check if it's inside the triangle
+		inclusionResult c = puntoEnTriangulo(p, triangle2d(current->a, current->b, origin), precision);
+		switch(c){
+			case BORDER: sum += 1; break; //We add +1/2
+			case INSIDE_POSITIVE: sum += 2; break; //We add 1
+			case INSIDE_NEGATIVE: sum -= 2; break; //Subtract 1
+			default: break;
+		}
 	}
-	return suma!=0;
+
+	switch(sum){
+		case 0: return OUTSIDE;
+
+		case 2: return INSIDE_POSITIVE;
+		case -2: return INSIDE_NEGATIVE;
+
+		default: throw invalidPolygon();
+	}
+
 }

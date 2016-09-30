@@ -12,30 +12,25 @@ using namespace std;
 
 int main(int argc, char *argv[]){
 	// Probaturas
-	punto2Dd a (4.12345, 3.23456);
-	punto2Dd f = cambiaCoordenadas(a, 2.0, 2.0, 6.0, 6.0, 3);
+	point2d a (4.12345, 3.23456);
+	point2d f = cambiaCoordenadas(a, 2.0, 2.0, 6.0, 6.0, 3);
 
 	cout<<f.x<<","<<f.y<<endl;
 
 
-	cout<<areaSignada(punto2Dd(1,3),punto2Dd(2,4),punto2Dd(7,5))<<endl;
+	cout<<areaSignada(point2d(1,3),point2d(2,4),point2d(7,5))<<endl;
 
-	cout<<segmentoRespectoSegmento(segmento2Df(0,1,0,1),segmento2Df(1,0,1,0))<<endl;
-
-	punto2Dd asdf(0,0);
-	triangulo2Dd t(punto2Dd(0, 0), punto2Dd(0,1), punto2Dd(1,0));
-	if(puntoDentroDeTriangulo(t, asdf)){
-		cout<<"Queueueueueueuee!!"<<endl;
-	}
-
-	punto2Df puntos[] = {punto2Df(0,0), punto2Df(1,0), punto2Df(1,1), punto2Df(0,1), punto2Df(5,5)};
-	list<punto2Df> vert(puntos, puntos + sizeof(puntos) / sizeof(punto2Df));
-	poligono2Df pol(vert.begin(), vert.end());
-	cout<<pol.puntoEnPoligono(punto2Df(1,1.0001),1)<<endl;
+	cout<<segmentoRespectoSegmento(segment2d(0,1,0,1),segment2d(1,0,1,0))<<endl;
 
 
-	vector<poligono2Dd>* mun1 = cargarFicheroMif_double("datos/municipio1.mif", 9);
-	vector<poligono2Dd>* mun2 = cargarFicheroMif_double("datos/municipio2.mif", 9);
+	point2d puntos[] = {point2d(0,0), point2d(1,0), point2d(1,1), point2d(0,1), point2d(5,5)};
+	list<point2d> vert(puntos, puntos + sizeof(puntos) / sizeof(point2d));
+	polygon2d pol(vert.begin(), vert.end());
+	cout<<pol.puntoEnPoligono(point2d(1,1.0001),1)<<endl;
+
+
+	//vector<polygon2d>* mun1 = cargarFicheroMif("datos/municipio1.mif", 9);
+	//vector<polygon2d>* mun2 = cargarFicheroMif("datos/municipio2.mif", 9);
 
 
 }

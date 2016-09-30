@@ -1,8 +1,17 @@
 #ifndef _TRIANGLE_H
 #define _TRIANGLE_H
 
+#include "segment.h"
 #include "point.h"
 #include "signo.h"
+
+//TODO: Decidir si esto va aquí
+enum inclusionResult {
+	OUTSIDE = 0,
+	BORDER = 1,
+	INSIDE_POSITIVE = 2,
+	INSIDE_NEGATIVE = -2
+};
 
 /**
 * Define el triángulo A->B->C->A
@@ -19,6 +28,6 @@ public:
 };
 
 double areaSignada(const triangle2d& a);
-int puntoDentroDeTriangulo(const triangle2d& t, const point2d& p, int precision=3);
+inclusionResult puntoEnTriangulo(const point2d& p, const triangle2d& t, int precision=3);
 
 #endif

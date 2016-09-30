@@ -22,20 +22,28 @@ public:
 public:
 	void construirSegmentos();
 	void construirVertices();
-	bool puntoEnPoligono(point2d p, int precision=3) const;
+	inclusionResult puntoEnPoligono(point2d p, int precision=3) const;
 
 	polygon2d();
 
-	template< template<typename, typename> typename container, typename A >
+	/*
+	Load polygon using a generic container with points, which are the polygon's vertices
+	@param container The container with the vertices
+	*/
+	template< template<class, class> class container, class A >
 	polygon2d(const container<point2d, A>& v);
 
-	template< template<typename, typename> typename container, typename A >
+	/*
+	Load polygon using a generic container with segments
+	@param container The container with the segments
+	*/
+	template< template<class, class> class container, class A >
 	polygon2d(const container<segment2d, A>& v);
 
-	template< template<typename> typename iterator_t >
+	template< template<class> class iterator_t >
 	polygon2d(const iterator_t<point2d >& inicio, const iterator_t<point2d >& fin);
 
-	template< template<typename> typename iterator_t >
+	template< template<class> class iterator_t >
 	polygon2d(const iterator_t<segment2d >& inicio, const iterator_t<segment2d >& fin);
 
 	polygon2d(const polygon2d& other);
@@ -44,19 +52,19 @@ public:
 
 };
 
-template<template<typename, typename> typename container, typename A >
+template<template<class, class> class container, class A >
 polygon2d::polygon2d(const container<point2d, A>& v):
 	polygon2d(v.begin(), v.end())
 {
 }
 
-template<template<typename, typename> typename container, typename A >
+template<template<class, class> class container, class A >
 polygon2d::polygon2d(const container<segment2d, A>& v):
 	polygon2d(v.begin(), v.end())
 {
 }
 
-template< template<typename> typename iterator_t >
+template< template<class> class iterator_t >
 polygon2d::polygon2d(const iterator_t<point2d >& inicio, const iterator_t<point2d >& fin)
 	: vertices(), segmentos()
 {
