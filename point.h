@@ -13,8 +13,8 @@ public:
     point2d(const double& ax, const double& ay): x(ax), y(ay){};
 	point2d(): x(0), y(0){};
 
-	bool operator==(const point2d& other){
-		return signo(this->x, other.x, precision) && signo(this->y, other.y, precision);
+	bool operator==(const point2d& other) const{
+		return !signo(this->x, other.x, precision) && !signo(this->y, other.y, precision);
 	}
 
 };

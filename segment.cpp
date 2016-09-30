@@ -5,8 +5,18 @@ double areaSignada(const segment2d& segment, const point2d& point){
 }
 
 bool puntoEnSegmento(const point2d& point, const segment2d& segment){
+	double v1x, v1y;
+	double v2x, v2y;
+
     if(signo(areaSignada(segment, point))==0){
-        return signo(dotProduct(point.x, segment.a.x, point.y, segment.b.y)) == -1;
+		v1x = point.x - segment.a.x;
+		v1y = point.y - segment.a.y;
+		v2x = point.x - segment.b.x;
+		v2y = point.y - segment.b.y;
+
+		//If sign == 0 -> the point is one of the segment's end points
+		//If sign == -1 -> the point is inside the segment
+        return signo(dotProduct(v1x, v1y, v2x, v2y)) <= 0;
     }
 	return false;
 }

@@ -10,7 +10,7 @@ int signo(int a){
 	}
 }
 
-inline int signo(double a, double b, int precision){
+int signo(double a, double b, int precision){
 	return signo(a-b, precision);
 }
 
