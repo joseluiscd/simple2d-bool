@@ -35,6 +35,26 @@ void polygon2d::construirSegmentos(){
 }
 
 inclusionResult polygon2d::puntoEnPoligono(point2d p, int precision) const {
+
+	int aX = sign(p.x, minX, precision);
+	int aY = sign(p.y, minY, precision);
+	int bX = sign(p.x, maxX, precision);
+	int bY = sign(p.y, maxY, precision);
+
+	//Is it outside the bounding box??
+	if(!(aX>0 && aY>0 && bX<0 && bY<0)){
+		return OUTSIDE;
+	}
+
+	//Is it a border of the bounding box??
+	if((aX || bX) && (aY || bY)){
+		for(auto current=vertices.begin(); current!=vertices.end(); current++){
+			if(p == *current){
+				return BORDER;
+			}
+		}
+	}
+
 	//Use the bottom-left corner of the bounding box
 	point2d origin(minX, minY);
 
