@@ -6,6 +6,6 @@
 
 #include "polygon.h"
 
-std::vector<polygon2d* >* reconstruye(const std::vector<segment2d >& segmentos, int precision=3);
+std::vector<polygon2d* >* rebuildPolygonsFromSegments(const std::vector<segment2d >& segments, int precision=3);
 
 #endif

@@ -5,6 +5,6 @@
 
 #include "polygon.h"
 
-void dumpPoligono(const char* file, const polygon2d& p);
+void dumpPolygon(const char* file, const polygon2d& p);
 
 #endif

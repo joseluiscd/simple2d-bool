@@ -2,7 +2,7 @@
 #include "point.h"
 #include "triangle.h"
 
-#define CHECK(p, t, r) (assert(puntoEnTriangulo(p, t)==r))
+#define CHECK(p, t, r) (assert(pointInTriangle(p, t)==r))
 
 int main(){
     point2d p1(0,0);

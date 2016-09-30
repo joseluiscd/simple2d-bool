@@ -26,7 +26,7 @@ point2d changeCoordinateSystem(const point2d& point, const double& x1,
 		const double& y1, const double& x2, const double& y2, int precision=3);
 
 point2d middlePoint(const point2d& a, const point2d& b);
-double middleSignedArea(const point2d& a, const point2d& b, const point2d& c);
+double doubleSignedArea(const point2d& a, const point2d& b, const point2d& c);
 double squaredDistance(const point2d& a, const point2d& b);
 double distance(const point2d &a, const point2d &b);
 

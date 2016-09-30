@@ -1,14 +1,15 @@
 #include "segment.h"
 
-double areaSignada(const segment2d& segment, const point2d& point){
-	return middleSignedArea(segment.a, segment.b, point);
+//TODO: Traducir comentarios
+double doubleSignedArea(const segment2d& segment, const point2d& point){
+	return doubleSignedArea(segment.a, segment.b, point);
 }
 
-bool puntoEnSegmento(const point2d& point, const segment2d& segment){
+bool pointInSegment(const point2d& point, const segment2d& segment){
 	double v1x, v1y;
 	double v2x, v2y;
 
-    if(sign(areaSignada(segment, point))==0){
+    if(sign(doubleSignedArea(segment, point))==0){
 		v1x = point.x - segment.a.x;
 		v1y = point.y - segment.a.y;
 		v2x = point.x - segment.b.x;
@@ -22,8 +23,7 @@ bool puntoEnSegmento(const point2d& point, const segment2d& segment){
 }
 
 //TODO: Change this (a.a.x, a.b.y...)
-SegmentoSegmento segmentoRespectoSegmento(const segment2d& a, const segment2d& b, int precision){
-	//Son iguales??
+segmentRelSegment segmentRelativeToSegment(const segment2d& a, const segment2d& b, int precision){
 	int x11 = sign(a.a.x, b.a.x, precision);
 	int x12 = sign(a.a.x, b.b.x, precision);
 	int x21 = sign(a.b.x, b.a.x, precision);
@@ -36,10 +36,10 @@ SegmentoSegmento segmentoRespectoSegmento(const segment2d& a, const segment2d& b
 
 	if( !(x11 && x12 && x21 && x22) && !(y11 && y12 && y21 && y22) ){
 		//Coincide alguna X y alguna Y. Coinciden por un extremo o son iguales
-		return sign(areaSignada(a, b.a), precision) || sign(areaSignada(a, b.b), precision) ? coinciden : iguales;
-	} else if(sign(areaSignada(a, b.a))==-sign(areaSignada(a, b.b)) && sign(areaSignada(b, a.a))==-sign(areaSignada(b, a.b))){
+		return sign(doubleSignedArea(a, b.a), precision) || sign(doubleSignedArea(a, b.b), precision) ? coinciden : iguales;
+	} else if(sign(doubleSignedArea(a, b.a))==-sign(doubleSignedArea(a, b.b)) && sign(doubleSignedArea(b, a.a))==-sign(doubleSignedArea(b, a.b))){
 		return cortan;
-	} else if(puntoEnSegmento(a.a, b) || puntoEnSegmento(a.b, b) || puntoEnSegmento(b.a, a) || puntoEnSegmento(b.b, a)){
+	} else if(pointInSegment(a.a, b) || pointInSegment(a.b, b) || pointInSegment(b.a, a) || pointInSegment(b.b, a)){
 		//Comprobamos si hay una intersección en forma de T
 		return cortan;
 	} else {
@@ -48,23 +48,22 @@ SegmentoSegmento segmentoRespectoSegmento(const segment2d& a, const segment2d& b
 }
 
 
-point2d puntoMedio(const segment2d& s){
+point2d middlePoint(const segment2d& s){
 	return middlePoint(s.a, s.b);
 }
 
 
-
-double cosenoAngulo(const segment2d& a, const segment2d& b){
+double cosAngle(const segment2d& a, const segment2d& b){
 	return ((a.b.x-a.a.x) * (b.b.x-b.a.x) + (a.b.y-a.a.y) * (b.b.y-b.a.y))/(distance(a.a, a.b)*distance(b.a, b.b));
 }
 
 
-int orientacion(const segment2d& a, const segment2d& b, int precision){
+int orientation(const segment2d& a, const segment2d& b, int precision){
 	return sign(determinant(a.b.x-a.a.x, a.b.y-a.a.y, b.b.x-b.a.x, b.b.y-b.a.y), precision);
 }
 
 //Devuelve el punto de corte entre los 2 segmentos
-point2d puntoCorte(const segment2d& a, const segment2d& b, int precision){
+point2d intersectionPoint(const segment2d& a, const segment2d& b, int precision){
 	point2d toRet;
 
 	double a1 = a.b.y - a.a.y;
@@ -75,7 +74,7 @@ point2d puntoCorte(const segment2d& a, const segment2d& b, int precision){
 	double denom = determinant(a1,a2,a3,a4);
 
 	if (sign(denom, precision)==0){
-		throw paralelas(); // Son paralelas
+		throw parallelSegments(); // Son paralelas
 	}
 
 	//Calcular la X
@@ -96,6 +95,6 @@ point2d puntoCorte(const segment2d& a, const segment2d& b, int precision){
 }
 
 
-segment2d reves(const segment2d& s){
+segment2d inverseSegment(const segment2d& s){
 	return segment2d(s.b, s.a);
 }

@@ -30,7 +30,7 @@ void polygon2d::buildSegments(){
 		segments.push_back(segment2d(*prev(i), *i));
 	}
 
-	//Unimos con el principio (Nos aseguramos de que el polígono es cerrado)
+	//Last point with first one (close polygon)
 	segments.push_back(segment2d(vertices.back(), vertices.front()));
 
 }
@@ -63,14 +63,16 @@ inclusionResult polygon2d::pointInPolygon(point2d p, int precision) const {
 
 	for(auto current=segments.begin(); current!=segments.end(); current++){
 		//Check if point is in a segment
-		if(puntoEnSegmento(p, *current)){
+		if(pointInSegment(p, *current)){
 			return BORDER;
 		}
 
 		//If it's not in a border, check if it's inside the triangle
-		inclusionResult c = puntoEnTriangulo(p, triangle2d(current->a, current->b, origin), precision);
+		triangle2d t = triangle2d(current->a, current->b, origin);
+		inclusionResult c = pointInTriangle(p, t, precision);
 		switch(c){
-			case BORDER: sum += 1; break; //We add +1/2
+			//TODO: Comprobar que el caso BORDER funciona bien
+			case BORDER: sum += orientation(t); break; //We add or subtract +1/2
 			case INSIDE_POSITIVE: sum += 2; break; //We add 1
 			case INSIDE_NEGATIVE: sum -= 2; break; //Subtract 1
 			default: break;

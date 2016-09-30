@@ -9,7 +9,7 @@ using namespace std;
 polygon2d* subtriangulo(polygon2d* triangulo){
     list<point2d > puntos;
     for(auto s: triangulo->segments){
-        puntos.push_back(puntoMedio(s));
+        puntos.push_back(middlePoint(s));
     }
 
     return new polygon2d(puntos);
@@ -30,8 +30,8 @@ list<polygon2d* > triangulo(int iterations){
         cola.pop_front();
 
         polygon2d* resta = subtriangulo(actual);
-        vector<segment2d >* segmentos = diferenciaPoligonos(*actual, *resta);
-        vector<polygon2d* >* nuevos = reconstruye(*segmentos);
+        vector<segment2d >* segmentos = polygonDifference(*actual, *resta);
+        vector<polygon2d* >* nuevos = rebuildPolygonsFromSegments(*segmentos);
 
         delete resta;
         delete segmentos;

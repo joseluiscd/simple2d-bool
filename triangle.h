@@ -13,9 +13,7 @@ enum inclusionResult {
 	INSIDE_NEGATIVE = -2
 };
 
-/**
-* Define el triángulo A->B->C->A
-*/
+
 class triangle2d {
 public:
 	point2d a;
@@ -27,7 +25,8 @@ public:
 	triangle2d(const triangle2d& orig): a(orig.a), b(orig.b), c(orig.c){};
 };
 
-double areaSignada(const triangle2d& a);
-inclusionResult puntoEnTriangulo(const point2d& p, const triangle2d& t, int precision=3);
+double doubleSignedArea(const triangle2d& a);
+inclusionResult pointInTriangle(const point2d& p, const triangle2d& t, int precision=3);
+int orientation(const triangle2d& t);
 
 #endif

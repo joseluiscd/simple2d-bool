@@ -5,15 +5,15 @@ std::vector<point2d>* intersectionPoints(const polygon2d &a, const polygon2d &b,
 	for(auto i = a.segments.begin(); i != a.segments.end(); i++){
 		std::vector<point2d> cortes_segmento;
 		for(auto j = b.segments.begin(); j!=b.segments.end(); j++){
-			if(segmentoRespectoSegmento(*i, *j, precision)==cortan){
+			if(segmentRelativeToSegment(*i, *j, precision)==cortan){
 				//calculamos el punto de corte
-				cortes_segmento.push_back(puntoCorte(*i, *j));
+				cortes_segmento.push_back(intersectionPoint(*i, *j));
 			}
 		}
 
 		vert1->push_back(i->a);
 		if(cortes_segmento.size()>0){
-			sort(cortes_segmento.begin(), cortes_segmento.end(), sortPuntos(&i->a));
+			sort(cortes_segmento.begin(), cortes_segmento.end(), sortPoints(&i->a));
 			for(int j=0; j<cortes_segmento.size(); j++){
 				vert1->push_back(cortes_segmento[j]);
 			}
@@ -22,7 +22,7 @@ std::vector<point2d>* intersectionPoints(const polygon2d &a, const polygon2d &b,
 	return vert1;
 }
 
-std::list<segment2d>* segmentosConPuntosDeCorte(const polygon2d &a, const polygon2d &b, int precision){
+std::list<segment2d>* segmentsWithIntersectionPoints(const polygon2d &a, const polygon2d &b, int precision){
 	std::vector<point2d>* vert1 = intersectionPoints(a, b, precision);
 
 	std::list<segment2d>* ret = new std::list<segment2d>();
@@ -38,20 +38,20 @@ std::list<segment2d>* segmentosConPuntosDeCorte(const polygon2d &a, const polygo
 
 }
 
-std::vector<segment2d>* interseccionPoligonos(const polygon2d &a, const polygon2d &b, int precision){
+std::vector<segment2d>* polygonIntersection(const polygon2d &a, const polygon2d &b, int precision){
 	std::vector<segment2d>* ret = new std::vector<segment2d>();
-	std::list<segment2d>* segmentos1 = segmentosConPuntosDeCorte(a, b, precision);
-	std::list<segment2d>* segmentos2 = segmentosConPuntosDeCorte(b, a, precision);
+	std::list<segment2d>* segmentos1 = segmentsWithIntersectionPoints(a, b, precision);
+	std::list<segment2d>* segmentos2 = segmentsWithIntersectionPoints(b, a, precision);
 
 	for(auto it=segmentos1->begin(); it!=segmentos1->end(); it++){
-		point2d pmedio = puntoMedio(*it);
+		point2d pmedio = middlePoint(*it);
 		if(b.pointInPolygon(pmedio)){
 			ret->push_back(*it);
 		}
 	}
 
 	for(auto it=segmentos2->begin(); it!=segmentos2->end(); it++){
-		point2d pmedio = puntoMedio(*it);
+		point2d pmedio = middlePoint(*it);
 		if(a.pointInPolygon(pmedio)){
 			ret->push_back(*it);
 		}
@@ -63,20 +63,20 @@ std::vector<segment2d>* interseccionPoligonos(const polygon2d &a, const polygon2
 	return ret;
 }
 
-std::vector<segment2d>* unionPoligonos(const polygon2d &a, const polygon2d &b, int precision){
+std::vector<segment2d>* polygonUnion(const polygon2d &a, const polygon2d &b, int precision){
 	std::vector<segment2d>* ret = new std::vector<segment2d>();
-	std::list<segment2d>* segmentos1 = segmentosConPuntosDeCorte(a, b, precision);
-	std::list<segment2d>* segmentos2 = segmentosConPuntosDeCorte(b, a, precision);
+	std::list<segment2d>* segmentos1 = segmentsWithIntersectionPoints(a, b, precision);
+	std::list<segment2d>* segmentos2 = segmentsWithIntersectionPoints(b, a, precision);
 
 	for(auto it=segmentos1->begin(); it!=segmentos1->end(); it++){
-		point2d pmedio = puntoMedio(*it);
+		point2d pmedio = middlePoint(*it);
 		if(!b.pointInPolygon(pmedio)){
 			ret->push_back(*it);
 		}
 	}
 
 	for(auto it=segmentos2->begin(); it!=segmentos2->end(); it++){
-		point2d pmedio = puntoMedio(*it);
+		point2d pmedio = middlePoint(*it);
 		if(!a.pointInPolygon(pmedio)){
 			ret->push_back(*it);
 		}
@@ -89,22 +89,22 @@ std::vector<segment2d>* unionPoligonos(const polygon2d &a, const polygon2d &b, i
 
 }
 
-std::vector<segment2d>* diferenciaPoligonos(const polygon2d &a, const polygon2d &b, int precision){
+std::vector<segment2d>* polygonDifference(const polygon2d &a, const polygon2d &b, int precision){
 	std::vector<segment2d>* ret = new std::vector<segment2d>();
-	std::list<segment2d>* segmentos1 = segmentosConPuntosDeCorte(a, b, precision);
-	std::list<segment2d>* segmentos2 = segmentosConPuntosDeCorte(b, a, precision);
+	std::list<segment2d>* segmentos1 = segmentsWithIntersectionPoints(a, b, precision);
+	std::list<segment2d>* segmentos2 = segmentsWithIntersectionPoints(b, a, precision);
 
 	for(auto it=segmentos1->begin(); it!=segmentos1->end(); it++){
-		point2d pmedio = puntoMedio(*it);
+		point2d pmedio = middlePoint(*it);
 		if(!b.pointInPolygon(pmedio)){
 			ret->push_back(*it);
 		}
 	}
 
 	for(auto it=segmentos2->begin(); it!=segmentos2->end(); it++){
-		point2d pmedio = puntoMedio(*it);
+		point2d pmedio = middlePoint(*it);
 		if(a.pointInPolygon(pmedio)){
-			ret->push_back(reves(*it));
+			ret->push_back(inverseSegment(*it));
 		}
 	}
 

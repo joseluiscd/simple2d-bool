@@ -8,22 +8,22 @@
 #include "polygon.h"
 #include "segment.h"
 
-class sortPuntos {
+class sortPoints {
 public:
-	const point2d* punto;
+	const point2d* point;
 
 	bool operator() (const point2d &i, const point2d &j) {
-		return (squaredDistance(i, *punto)<squaredDistance(j, *punto));
+		return (squaredDistance(i, *point)<squaredDistance(j, *point));
 	}
 
-	sortPuntos(const point2d *p): punto(p) {};
+	sortPoints(const point2d *p): point(p) {};
 };
 
 
 std::vector<point2d>* intersectionPoints(const polygon2d &a, const polygon2d &b, int precision=3);
-std::list<segment2d>* segmentosConPuntosDeCorte(const polygon2d &a, const polygon2d &b, int precision=3);
-std::vector<segment2d>* interseccionPoligonos(const polygon2d &a, const polygon2d &b, int precision=3);
-std::vector<segment2d>* unionPoligonos(const polygon2d &a, const polygon2d &b, int precision=3);
-std::vector<segment2d>* diferenciaPoligonos(const polygon2d &a, const polygon2d &b, int precision=3);
+std::list<segment2d>* segmentsWithIntersectionPoints(const polygon2d &a, const polygon2d &b, int precision=3);
+std::vector<segment2d>* polygonIntersection(const polygon2d &a, const polygon2d &b, int precision=3);
+std::vector<segment2d>* polygonUnion(const polygon2d &a, const polygon2d &b, int precision=3);
+std::vector<segment2d>* polygonDifference(const polygon2d &a, const polygon2d &b, int precision=3);
 
 #endif

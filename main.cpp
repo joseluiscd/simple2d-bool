@@ -19,9 +19,9 @@ int main(int argc, char *argv[]){
 	cout<<f.x<<","<<f.y<<endl;
 
 
-	cout<<middleSignedArea(point2d(1,3),point2d(2,4),point2d(7,5))<<endl;
+	cout<<doubleSignedArea(point2d(1,3),point2d(2,4),point2d(7,5))<<endl;
 
-	cout<<segmentoRespectoSegmento(segment2d(0,1,0,1),segment2d(1,0,1,0))<<endl;
+	cout<<segmentRelativeToSegment(segment2d(0,1,0,1),segment2d(1,0,1,0))<<endl;
 
 
 	point2d puntos[] = {point2d(0,0), point2d(1,0), point2d(1,1), point2d(0,1), point2d(5,5)};

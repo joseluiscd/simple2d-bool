@@ -17,8 +17,8 @@ int main(int argc, char* argv[]) {
     polygon2d* poligono1 = cargarFicheroFloat(argv[1]);
     polygon2d* poligono2 = cargarFicheroFloat(argv[2]);
 
-    auto x = interseccionPoligonos(*poligono1, *poligono2);
-    auto y = reconstruye(*x);
+    auto x = polygonIntersection(*poligono1, *poligono2);
+    auto y = rebuildPolygonsFromSegments(*x);
     delete x;
 
     for(auto pol : *y){

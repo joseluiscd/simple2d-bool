@@ -8,7 +8,7 @@
 #include "point.h"
 
 
-enum SegmentoSegmento{
+enum segmentRelSegment{
 	iguales=0, cortan=1, coinciden=2, nada=3
 };
 
@@ -25,19 +25,17 @@ public:
 	segment2d(const segment2d& orig): a(orig.a), b(orig.b){};
 };
 
-class paralelas: public std::exception {
+class parallelSegments: public std::exception {
 };
 
-class nocortan: public std::exception {
-};
 
-double areaSignada(const segment2d& segment, const point2d& point);
-bool puntoEnSegmento(const point2d& point, const segment2d& segment);
-SegmentoSegmento segmentoRespectoSegmento(const segment2d& a, const segment2d& b, int precision=6);
-point2d puntoMedio(const segment2d& s);
-double cosenoAngulo(const segment2d& a, const segment2d& b);
-int orientacion(const segment2d& a, const segment2d& b, int precision=3);
-point2d puntoCorte(const segment2d& a, const segment2d& b, int precision=3);
-segment2d reves(const segment2d& s);
+double doubleSignedArea(const segment2d& segment, const point2d& point);
+bool pointInSegment(const point2d& point, const segment2d& segment);
+segmentRelSegment segmentRelativeToSegment(const segment2d& a, const segment2d& b, int precision=6);
+point2d middlePoint(const segment2d& s);
+double cosAngle(const segment2d& a, const segment2d& b);
+int orientation(const segment2d& a, const segment2d& b, int precision=3);
+point2d intersectionPoint(const segment2d& a, const segment2d& b, int precision=3);
+segment2d inverseSegment(const segment2d& s);
 
 #endif

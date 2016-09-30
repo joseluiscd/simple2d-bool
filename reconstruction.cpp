@@ -1,8 +1,8 @@
 #include "reconstruction.h"
 
 using namespace std;
-
-vector<polygon2d* >* reconstruye(const vector<segment2d >& segmentos, int precision){
+//TODO: Traducir los comentarios de este fichero
+vector<polygon2d* >* rebuildPolygonsFromSegments(const vector<segment2d >& segmentos, int precision){
     vector<polygon2d* >* ret = new vector<polygon2d* >();
     list<segment2d > restantes(segmentos.begin(), segmentos.end());
 
@@ -32,8 +32,8 @@ vector<polygon2d* >* reconstruye(const vector<segment2d >& segmentos, int precis
                         candidato = it;
                     } else {
                         //Comprobamos el ángulo
-                        double c = cosenoAngulo(reves(current), *it);
-                        int o = orientacion(reves(current), *it);
+                        double c = cosAngle(inverseSegment(current), *it);
+                        int o = orientation(inverseSegment(current), *it);
                         if((o==-1 || o==0) && c>coseno){
                             candidato = it;
                             coseno = c;

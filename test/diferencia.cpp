@@ -25,7 +25,7 @@ int main() {
     polygon2d poligono1(cuadrado1);
     polygon2d poligono2(cuadrado2);
 
-    auto x = diferenciaPoligonos(poligono1, poligono2);
+    auto x = polygonDifference(poligono1, poligono2);
 
     for(auto i : *x){
         printf("%f\t%f\t%f\t%f\n", i.a.x, i.a.y, i.b.x, i.b.y);
