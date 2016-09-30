@@ -25,6 +25,9 @@ public:
 };
 
 class polygon2d {
+private:
+	double minX, minY, maxX, maxY; //Bounding box
+
 public:
 	std::list<point2d> vertices;
 	std::list<segment2d> segmentos;
@@ -36,25 +39,15 @@ public:
 
 	polygon2d();
 
-	/*
+	/**
 	Load polygon using a generic container with points, which are the polygon's vertices
 	@param container The container with the vertices
 	*/
 	template< template<class, class> class container, class A >
 	polygon2d(const container<point2d, A>& v);
 
-	/*
-	Load polygon using a generic container with segments
-	@param container The container with the segments
-	*/
-	template< template<class, class> class container, class A >
-	polygon2d(const container<segment2d, A>& v);
-
 	template< template<class> class iterator_t >
 	polygon2d(const iterator_t<point2d >& inicio, const iterator_t<point2d >& fin);
-
-	template< template<class> class iterator_t >
-	polygon2d(const iterator_t<segment2d >& inicio, const iterator_t<segment2d >& fin);
 
 	polygon2d(const polygon2d& other);
 	virtual ~polygon2d();
@@ -64,12 +57,6 @@ public:
 
 template<template<class, class> class container, class A >
 polygon2d::polygon2d(const container<point2d, A>& v):
-	polygon2d(v.begin(), v.end())
-{
-}
-
-template<template<class, class> class container, class A >
-polygon2d::polygon2d(const container<segment2d, A>& v):
 	polygon2d(v.begin(), v.end())
 {
 }

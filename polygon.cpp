@@ -8,28 +8,35 @@ polygon2d::polygon2d():
 	{}
 
 
-polygon2d::polygon2d(const polygon2d& otro):
-	vertices(otro.vertices),
-	segmentos(otro.segmentos)
+polygon2d::polygon2d(const polygon2d& other):
+	vertices(other.vertices),
+	segmentos(other.segmentos)
 	{}
 
 
 void polygon2d::construirSegmentos(){
+	minX = vertices.front().x;
+	minY = vertices.front().y;
+	maxX = vertices.front().x;
+	maxY = vertices.front().y;
+
 	for(auto i=++vertices.begin();i!=vertices.end();i++){
+		if(i->x < minX) minX = i->x;
+		if(i->y < minY) minY = i->y;
+		if(i->x > maxX) maxX = i->x;
+		if(i->y > maxY) maxY = i->y;
+
 		segmentos.push_back(segment2d(*prev(i), *i));
 	}
+
 	//Unimos con el principio (Nos aseguramos de que el polígono es cerrado)
 	segmentos.push_back(segment2d(vertices.back(), vertices.front()));
-}
 
-void polygon2d::construirVertices(){
-	for(auto it=segmentos.begin(); it!=segmentos.end(); ++it){
-		vertices.push_back(it->a);
-	}
 }
 
 inclusionResult polygon2d::puntoEnPoligono(point2d p, int precision) const {
-	point2d origin(0,0);
+	//Use the bottom-left corner of the bounding box
+	point2d origin(minX, minY);
 
 	int sum = 0;
 
