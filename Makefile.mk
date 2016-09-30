@@ -1,5 +1,5 @@
-OBJECTS = math.o signo.o point.o segment.o triangle.o polygon.o loader_polygon.o random_polygon.o
-HEADERS = math.h signo.h point.h segment.h triangle.h polygon.h loader_polygon.h random_polygon.h
+OBJECTS = math.o signo.o point.o segment.o triangle.o polygon.o bool_polygon.o loader_polygon.o random_polygon.o dump_polygon.o reconstruction.o
+HEADERS = math.h signo.h point.h segment.h triangle.h polygon.h bool_polygon.h loader_polygon.h random_polygon.h dump_polygon.h reconstruction.h
 MAIN = main.o
 
 .PHONY: test
