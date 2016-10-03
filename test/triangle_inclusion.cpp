@@ -1,5 +1,5 @@
-#include "assert.h"
-#include "point.h"
+#include <assert.h>
+#include <point.h>
 #include "triangle.h"
 
 #define CHECK(p, t, r) (assert(pointInTriangle(p, t)==r))
