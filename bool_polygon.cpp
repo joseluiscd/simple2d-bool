@@ -5,7 +5,7 @@ std::vector<point2d>* intersectionPoints(const polygon2d &a, const polygon2d &b,
 	for(auto i = a.segments.begin(); i != a.segments.end(); i++){
 		std::vector<point2d> cortes_segmento;
 		for(auto j = b.segments.begin(); j!=b.segments.end(); j++){
-			if(segmentRelativeToSegment(*i, *j, precision)==cortan){
+			if(segmentRelativeToSegment(*i, *j, precision)==INTERSECT){
 				//calculamos el punto de corte
 				cortes_segmento.push_back(intersectionPoint(*i, *j));
 			}

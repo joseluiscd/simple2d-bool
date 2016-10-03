@@ -1,9 +1,11 @@
 include_directories(${SIMPLE2DBOOL_SOURCE_DIR})
+macro(add_unit_test name source)
+    add_executable(${source}.out ${source})
+    target_link_libraries(${source}.out simple2dbool)
+    add_test(${name} ${source}.out)
+endmacro(add_unit_test)
 
-add_executable(tinclusion.out triangle_inclusion.cpp)
-target_link_libraries(tinclusion.out simple2dbool)
-add_test(TriangleInclusion tinclusion.out)
 
-add_executable(pinclusion.out polygon_inclusion.cpp)
-target_link_libraries(pinclusion.out simple2dbool)
-add_test(PolygonInclusion pinclusion.out)
+add_unit_test(TriangleInclusion triangle_inclusion.cpp)
+add_unit_test(PolygonInclusion polygon_inclusion.cpp)
+add_unit_test(Diferencia diferencia.cpp)

@@ -7,7 +7,6 @@
 #include "math.h"
 #include "point.h"
 
-
 enum segmentRelSegment{
 	EQUALS=0, INTERSECT=1, CONNECTED=2, NO_RELATION=3
 };
@@ -27,7 +26,6 @@ class parallelSegments: public std::exception {
 };
 
 
-double doubleSignedArea(const segment2d& segment, const point2d& point);
 bool pointInSegment(const point2d& point, const segment2d& segment);
 segmentRelSegment segmentRelativeToSegment(const segment2d& a, const segment2d& b, int precision=6);
 point2d middlePoint(const segment2d& s);

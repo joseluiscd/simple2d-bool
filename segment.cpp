@@ -1,8 +1,5 @@
 #include "segment.h"
-
-double doubleSignedArea(const segment2d& segment, const point2d& point){
-	return doubleSignedArea(segment.a, segment.b, point);
-}
+#include "triangle.h"
 
 bool pointInSegment(const point2d& point, const segment2d& segment){
 	double v1x, v1y;

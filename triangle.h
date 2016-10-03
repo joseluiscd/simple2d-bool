@@ -25,6 +25,8 @@ public:
 	triangle2d(const triangle2d& orig): a(orig.a), b(orig.b), c(orig.c){};
 };
 
+double doubleSignedArea(const point2d& a, const point2d& b, const point2d& c);
+double doubleSignedArea(const segment2d& segment, const point2d& point);
 double doubleSignedArea(const triangle2d& a);
 inclusionResult pointInTriangle(const point2d& p, const triangle2d& t, int precision=3);
 int orientation(const triangle2d& t);

@@ -122,34 +122,76 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-test/CMakeFiles/tinclusion.out.dir/rule:
-	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/tinclusion.out.dir/rule
-.PHONY : test/CMakeFiles/tinclusion.out.dir/rule
+test/CMakeFiles/triangle_inclusion.cpp.out.dir/rule:
+	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/triangle_inclusion.cpp.out.dir/rule
+.PHONY : test/CMakeFiles/triangle_inclusion.cpp.out.dir/rule
 
 # Convenience name for target.
-tinclusion.out: test/CMakeFiles/tinclusion.out.dir/rule
+triangle_inclusion.cpp.out: test/CMakeFiles/triangle_inclusion.cpp.out.dir/rule
 
-.PHONY : tinclusion.out
+.PHONY : triangle_inclusion.cpp.out
 
 # fast build rule for target.
-tinclusion.out/fast:
-	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/tinclusion.out.dir/build.make test/CMakeFiles/tinclusion.out.dir/build
-.PHONY : tinclusion.out/fast
+triangle_inclusion.cpp.out/fast:
+	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/triangle_inclusion.cpp.out.dir/build.make test/CMakeFiles/triangle_inclusion.cpp.out.dir/build
+.PHONY : triangle_inclusion.cpp.out/fast
 
 # Convenience name for target.
-test/CMakeFiles/pinclusion.out.dir/rule:
-	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/pinclusion.out.dir/rule
-.PHONY : test/CMakeFiles/pinclusion.out.dir/rule
+test/CMakeFiles/polygon_inclusion.cpp.out.dir/rule:
+	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/polygon_inclusion.cpp.out.dir/rule
+.PHONY : test/CMakeFiles/polygon_inclusion.cpp.out.dir/rule
 
 # Convenience name for target.
-pinclusion.out: test/CMakeFiles/pinclusion.out.dir/rule
+polygon_inclusion.cpp.out: test/CMakeFiles/polygon_inclusion.cpp.out.dir/rule
 
-.PHONY : pinclusion.out
+.PHONY : polygon_inclusion.cpp.out
 
 # fast build rule for target.
-pinclusion.out/fast:
-	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/pinclusion.out.dir/build.make test/CMakeFiles/pinclusion.out.dir/build
-.PHONY : pinclusion.out/fast
+polygon_inclusion.cpp.out/fast:
+	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/polygon_inclusion.cpp.out.dir/build.make test/CMakeFiles/polygon_inclusion.cpp.out.dir/build
+.PHONY : polygon_inclusion.cpp.out/fast
+
+# Convenience name for target.
+test/CMakeFiles/diferencia.cpp.out.dir/rule:
+	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/diferencia.cpp.out.dir/rule
+.PHONY : test/CMakeFiles/diferencia.cpp.out.dir/rule
+
+# Convenience name for target.
+diferencia.cpp.out: test/CMakeFiles/diferencia.cpp.out.dir/rule
+
+.PHONY : diferencia.cpp.out
+
+# fast build rule for target.
+diferencia.cpp.out/fast:
+	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/diferencia.cpp.out.dir/build.make test/CMakeFiles/diferencia.cpp.out.dir/build
+.PHONY : diferencia.cpp.out/fast
+
+diferencia.o: diferencia.cpp.o
+
+.PHONY : diferencia.o
+
+# target to build an object file
+diferencia.cpp.o:
+	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/diferencia.cpp.out.dir/build.make test/CMakeFiles/diferencia.cpp.out.dir/diferencia.cpp.o
+.PHONY : diferencia.cpp.o
+
+diferencia.i: diferencia.cpp.i
+
+.PHONY : diferencia.i
+
+# target to preprocess a source file
+diferencia.cpp.i:
+	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/diferencia.cpp.out.dir/build.make test/CMakeFiles/diferencia.cpp.out.dir/diferencia.cpp.i
+.PHONY : diferencia.cpp.i
+
+diferencia.s: diferencia.cpp.s
+
+.PHONY : diferencia.s
+
+# target to generate assembly for a file
+diferencia.cpp.s:
+	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/diferencia.cpp.out.dir/build.make test/CMakeFiles/diferencia.cpp.out.dir/diferencia.cpp.s
+.PHONY : diferencia.cpp.s
 
 polygon_inclusion.o: polygon_inclusion.cpp.o
 
@@ -157,7 +199,7 @@ polygon_inclusion.o: polygon_inclusion.cpp.o
 
 # target to build an object file
 polygon_inclusion.cpp.o:
-	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/pinclusion.out.dir/build.make test/CMakeFiles/pinclusion.out.dir/polygon_inclusion.cpp.o
+	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/polygon_inclusion.cpp.out.dir/build.make test/CMakeFiles/polygon_inclusion.cpp.out.dir/polygon_inclusion.cpp.o
 .PHONY : polygon_inclusion.cpp.o
 
 polygon_inclusion.i: polygon_inclusion.cpp.i
@@ -166,7 +208,7 @@ polygon_inclusion.i: polygon_inclusion.cpp.i
 
 # target to preprocess a source file
 polygon_inclusion.cpp.i:
-	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/pinclusion.out.dir/build.make test/CMakeFiles/pinclusion.out.dir/polygon_inclusion.cpp.i
+	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/polygon_inclusion.cpp.out.dir/build.make test/CMakeFiles/polygon_inclusion.cpp.out.dir/polygon_inclusion.cpp.i
 .PHONY : polygon_inclusion.cpp.i
 
 polygon_inclusion.s: polygon_inclusion.cpp.s
@@ -175,7 +217,7 @@ polygon_inclusion.s: polygon_inclusion.cpp.s
 
 # target to generate assembly for a file
 polygon_inclusion.cpp.s:
-	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/pinclusion.out.dir/build.make test/CMakeFiles/pinclusion.out.dir/polygon_inclusion.cpp.s
+	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/polygon_inclusion.cpp.out.dir/build.make test/CMakeFiles/polygon_inclusion.cpp.out.dir/polygon_inclusion.cpp.s
 .PHONY : polygon_inclusion.cpp.s
 
 triangle_inclusion.o: triangle_inclusion.cpp.o
@@ -184,7 +226,7 @@ triangle_inclusion.o: triangle_inclusion.cpp.o
 
 # target to build an object file
 triangle_inclusion.cpp.o:
-	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/tinclusion.out.dir/build.make test/CMakeFiles/tinclusion.out.dir/triangle_inclusion.cpp.o
+	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/triangle_inclusion.cpp.out.dir/build.make test/CMakeFiles/triangle_inclusion.cpp.out.dir/triangle_inclusion.cpp.o
 .PHONY : triangle_inclusion.cpp.o
 
 triangle_inclusion.i: triangle_inclusion.cpp.i
@@ -193,7 +235,7 @@ triangle_inclusion.i: triangle_inclusion.cpp.i
 
 # target to preprocess a source file
 triangle_inclusion.cpp.i:
-	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/tinclusion.out.dir/build.make test/CMakeFiles/tinclusion.out.dir/triangle_inclusion.cpp.i
+	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/triangle_inclusion.cpp.out.dir/build.make test/CMakeFiles/triangle_inclusion.cpp.out.dir/triangle_inclusion.cpp.i
 .PHONY : triangle_inclusion.cpp.i
 
 triangle_inclusion.s: triangle_inclusion.cpp.s
@@ -202,7 +244,7 @@ triangle_inclusion.s: triangle_inclusion.cpp.s
 
 # target to generate assembly for a file
 triangle_inclusion.cpp.s:
-	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/tinclusion.out.dir/build.make test/CMakeFiles/tinclusion.out.dir/triangle_inclusion.cpp.s
+	cd /home/joseluis/git/algoritmos-geometricos && $(MAKE) -f test/CMakeFiles/triangle_inclusion.cpp.out.dir/build.make test/CMakeFiles/triangle_inclusion.cpp.out.dir/triangle_inclusion.cpp.s
 .PHONY : triangle_inclusion.cpp.s
 
 # Help Target
@@ -211,11 +253,15 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... tinclusion.out"
 	@echo "... edit_cache"
+	@echo "... triangle_inclusion.cpp.out"
 	@echo "... test"
-	@echo "... pinclusion.out"
+	@echo "... polygon_inclusion.cpp.out"
+	@echo "... diferencia.cpp.out"
 	@echo "... rebuild_cache"
+	@echo "... diferencia.o"
+	@echo "... diferencia.i"
+	@echo "... diferencia.s"
 	@echo "... polygon_inclusion.o"
 	@echo "... polygon_inclusion.i"
 	@echo "... polygon_inclusion.s"
