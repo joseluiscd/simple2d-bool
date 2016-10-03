@@ -1,3 +1,4 @@
+project(test)
 include_directories(${SIMPLE2DBOOL_SOURCE_DIR})
 macro(add_unit_test name source)
     add_executable(${source}.out ${source})

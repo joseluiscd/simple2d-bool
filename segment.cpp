@@ -1,11 +1,11 @@
 #include "segment.h"
 #include "triangle.h"
 
-bool pointInSegment(const point2d& point, const segment2d& segment){
+bool pointInSegment(const point2d& point, const segment2d& segment, int precision){
 	double v1x, v1y;
 	double v2x, v2y;
 
-    if(sign(doubleSignedArea(segment, point))==0){
+    if(sign(doubleSignedArea(segment, point), precision)==0){
 		v1x = point.x - segment.a.x;
 		v1y = point.y - segment.a.y;
 		v2x = point.x - segment.b.x;

@@ -26,7 +26,7 @@ class parallelSegments: public std::exception {
 };
 
 
-bool pointInSegment(const point2d& point, const segment2d& segment);
+bool pointInSegment(const point2d& point, const segment2d& segment, int precision=3);
 segmentRelSegment segmentRelativeToSegment(const segment2d& a, const segment2d& b, int precision=6);
 point2d middlePoint(const segment2d& s);
 double cosAngle(const segment2d& a, const segment2d& b);
