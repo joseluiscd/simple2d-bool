@@ -44,16 +44,15 @@ inclusionResult polygon2d::pointInPolygon(point2d p, int precision) const {
 
 	//Is it outside the bounding box??
 	if(!(aX>0 && aY>0 && bX<0 && bY<0)){
-		return OUTSIDE;
-	}
-
-	//Is it a border of the bounding box??
-	if((aX || bX) && (aY || bY)){
-		for(auto current=vertices.begin(); current!=vertices.end(); current++){
-			if(p == *current){
-				return BORDER;
+		//Is it a border of the bounding box??
+		if((aX || bX) && (aY || bY)){
+			for(auto current=vertices.begin(); current!=vertices.end(); current++){
+				if(p == *current){
+					return BORDER;
+				}
 			}
 		}
+		return OUTSIDE;
 	}
 
 	//Use the bottom-left corner of the bounding box
@@ -71,7 +70,6 @@ inclusionResult polygon2d::pointInPolygon(point2d p, int precision) const {
 		triangle2d t = triangle2d(current->a, current->b, origin);
 		inclusionResult c = pointInTriangle(p, t, precision);
 		switch(c){
-			//TODO: Comprobar que el caso BORDER funciona bien
 			case BORDER: sum += orientation(t); break; //We add or subtract +1/2
 			case INSIDE_POSITIVE: sum += 2; break; //We add 1
 			case INSIDE_NEGATIVE: sum -= 2; break; //Subtract 1
@@ -89,4 +87,8 @@ inclusionResult polygon2d::pointInPolygon(point2d p, int precision) const {
 		throw invalidPolygon("Point in polygon returned unexpected result.");
 	}
 
+}
+
+inclusionResult pointInPolygon(const point2d& point, const polygon2d& polygon, int precision){
+	return polygon.pointInPolygon(point, precision);
 }

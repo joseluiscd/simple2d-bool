@@ -42,11 +42,12 @@ public:
 	Load polygon using a generic container with points, which are the polygon's vertices
 	@param container The container with the vertices
 	*/
-	template< template<class, class> class container, class A >
-	polygon2d(const container<point2d, A>& v);
+	template< class container >
+	polygon2d(const container& v);
 
-	template< template<class> class iterator_t >
-	polygon2d(const iterator_t<point2d >& start, const iterator_t<point2d >& end);
+	template< class iterator_t >
+	polygon2d(const iterator_t& start, const iterator_t& end);
+
 
 	polygon2d(const polygon2d& other);
 	virtual ~polygon2d();
@@ -54,19 +55,21 @@ public:
 
 };
 
-template<template<class, class> class container, class A >
-polygon2d::polygon2d(const container<point2d, A>& v):
+template<class container>
+polygon2d::polygon2d(const container& v):
 	polygon2d(v.begin(), v.end())
 {
 }
 
-template< template<class> class iterator_t >
-polygon2d::polygon2d(const iterator_t<point2d >& start, const iterator_t<point2d >& end)
+template< class iterator_t >
+polygon2d::polygon2d(const iterator_t& start, const iterator_t& end)
 	: vertices(), segments()
 {
-	for(iterator_t<point2d > i=start; i!=end; i++){
+	for(iterator_t i=start; i!=end; i++){
 		vertices.push_back(*i);
 	}
 	buildSegments();
 }
+
+inclusionResult pointInPolygon(const point2d& point, const polygon2d& polygon, int precision=3);
 #endif
