@@ -9,12 +9,10 @@
 
 
 enum segmentRelSegment{
-	iguales=0, cortan=1, coinciden=2, nada=3
+	EQUALS=0, INTERSECT=1, CONNECTED=2, NO_RELATION=3
 };
 
-/**
-* Define el segmento A->B
-*/
+
 class segment2d {
 public:
 	point2d a;

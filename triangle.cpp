@@ -1,7 +1,5 @@
 #include "triangle.h"
 
-//TODO: Traducir comentarios
-// O(1)
 double doubleSignedArea(const triangle2d& a){
 	return doubleSignedArea(a.a, a.b, a.c);
 }
@@ -11,10 +9,6 @@ int orientation(const triangle2d& triangle){
 }
 
 
-/**
-* Devuelve un entero con signo indicando si el punto está dentro del triángulo (1 o -1)
-* o no (0)
-*/
 inclusionResult pointInTriangle(const point2d& p, const triangle2d& t, int precision){
 	int a = sign(doubleSignedArea(t.a, t.b, p), precision);
 	int b = sign(doubleSignedArea(t.b, t.c, p), precision);

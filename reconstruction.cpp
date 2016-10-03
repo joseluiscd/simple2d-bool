@@ -1,41 +1,42 @@
 #include "reconstruction.h"
 
 using namespace std;
-//TODO: Traducir los comentarios de este fichero
+
+//Inefficient version of the algorithm TODO: Use hashtable
 vector<polygon2d* >* rebuildPolygonsFromSegments(const vector<segment2d >& segmentos, int precision){
     vector<polygon2d* >* ret = new vector<polygon2d* >();
-    list<segment2d > restantes(segmentos.begin(), segmentos.end());
+    list<segment2d > rest(segmentos.begin(), segmentos.end());
 
-    //Eliminamos los puntos
-    for(auto it=restantes.begin(); it!=restantes.end(); it++){
-        if(sign(squaredDistance(it->b, it->a), precision)==0){
-            //Es un punto
-            it = prev(restantes.erase(it));
+    //Remove elements that are points
+    for(auto it=rest.begin(); it!=rest.end(); it++){
+        if(it->b == it->a){
+            //It's a point
+            it = prev(rest.erase(it));
         }
     }
 
-    while(!restantes.empty()){
-        list<point2d > puntos;
-        segment2d current = restantes.front();
-        segment2d primero = current;
+    while(!rest.empty()){
+        list<point2d > points;
+        segment2d current = rest.front();
+        segment2d first = current;
 
-        restantes.pop_front();
+        rest.pop_front();
 
-        puntos.push_back(current.a);
-        bool parada=false;
-        while(!parada){
-            auto candidato = restantes.end();
+        points.push_back(current.a);
+        bool stop=false;
+        while(!stop){
+            auto candidate = rest.end();
             double coseno = -1;
-            for(auto it=restantes.begin(); it!=restantes.end(); it++){
+            for(auto it=rest.begin(); it!=rest.end(); it++){
                 if(sign(squaredDistance(current.b, it->a), precision)==0){
-                    if(candidato==restantes.end()){
-                        candidato = it;
+                    if(candidate==rest.end()){
+                        candidate = it;
                     } else {
-                        //Comprobamos el ángulo
-                        double c = cosAngle(inverseSegment(current), *it);
+                    	//Check angle
+                    	double c = cosAngle(inverseSegment(current), *it);
                         int o = orientation(inverseSegment(current), *it);
                         if((o==-1 || o==0) && c>coseno){
-                            candidato = it;
+                            candidate = it;
                             coseno = c;
                         }
                     }
@@ -43,18 +44,18 @@ vector<polygon2d* >* rebuildPolygonsFromSegments(const vector<segment2d >& segme
                 }
             }
 
-            //Ya tenemos el candidato definitivo para formar parte de nuestro polígono
-            puntos.push_back(candidato->a);
-            current = *candidato;
+            //Add the new segment to our polygon
+            points.push_back(candidate->a);
+            current = *candidate;
 
-            if(sign(squaredDistance(current.b, primero.a), precision)==0){
-                parada = true;
-                ret->push_back(new polygon2d(puntos));
+            if(sign(squaredDistance(current.b, first.a), precision)==0){
+                stop = true;
+                ret->push_back(new polygon2d(points));
 
-                puntos.clear();
+                points.clear();
             }
 
-            restantes.erase(candidato);
+            rest.erase(candidate);
 
         }
 

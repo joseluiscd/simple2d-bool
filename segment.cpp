@@ -1,6 +1,5 @@
 #include "segment.h"
 
-//TODO: Traducir comentarios
 double doubleSignedArea(const segment2d& segment, const point2d& point){
 	return doubleSignedArea(segment.a, segment.b, point);
 }
@@ -22,28 +21,38 @@ bool pointInSegment(const point2d& point, const segment2d& segment){
 	return false;
 }
 
-//TODO: Change this (a.a.x, a.b.y...)
-segmentRelSegment segmentRelativeToSegment(const segment2d& a, const segment2d& b, int precision){
-	int x11 = sign(a.a.x, b.a.x, precision);
-	int x12 = sign(a.a.x, b.b.x, precision);
-	int x21 = sign(a.b.x, b.a.x, precision);
-	int x22 = sign(a.b.x, b.b.x, precision);
+segmentRelSegment segmentRelativeToSegment(const segment2d& first, const segment2d& second, int precision){
+	int x11 = sign(first.a.x, second.a.x, precision);
+	int x12 = sign(first.a.x, second.b.x, precision);
+	int x21 = sign(first.b.x, second.a.x, precision);
+	int x22 = sign(first.b.x, second.b.x, precision);
 
-	int y11 = sign(a.a.y, b.a.y, precision);
-	int y12 = sign(a.a.y, b.b.y, precision);
-	int y21 = sign(a.b.y, b.a.y, precision);
-	int y22 = sign(a.b.y, b.b.y, precision);
+	int y11 = sign(first.a.y, second.a.y, precision);
+	int y12 = sign(first.a.y, second.b.y, precision);
+	int y21 = sign(first.b.y, second.a.y, precision);
+	int y22 = sign(first.b.y, second.b.y, precision);
 
 	if( !(x11 && x12 && x21 && x22) && !(y11 && y12 && y21 && y22) ){
-		//Coincide alguna X y alguna Y. Coinciden por un extremo o son iguales
-		return sign(doubleSignedArea(a, b.a), precision) || sign(doubleSignedArea(a, b.b), precision) ? coinciden : iguales;
-	} else if(sign(doubleSignedArea(a, b.a))==-sign(doubleSignedArea(a, b.b)) && sign(doubleSignedArea(b, a.a))==-sign(doubleSignedArea(b, a.b))){
-		return cortan;
-	} else if(pointInSegment(a.a, b) || pointInSegment(a.b, b) || pointInSegment(b.a, a) || pointInSegment(b.b, a)){
-		//Comprobamos si hay una intersección en forma de T
-		return cortan;
+		//Some X and Y are the same. They are connected or the same segment.
+		if(sign(doubleSignedArea(first, second.a), precision)
+			|| sign(doubleSignedArea(first, second.b), precision))
+			{
+				return CONNECTED;
+		}
+		return EQUALS;
+	} else if(
+		sign(doubleSignedArea(first, second.a))==-sign(doubleSignedArea(first, second.b))
+		&&
+		sign(doubleSignedArea(second, first.a))==-sign(doubleSignedArea(second, first.b)))
+		{
+			return INTERSECT;
+	} else if(pointInSegment(first.a, second) || pointInSegment(first.b, second)
+		|| pointInSegment(second.a, first) || pointInSegment(second.b, first))
+		{
+			//Check if there is a "T" intersection
+			return INTERSECT;
 	} else {
-		return nada;
+		return NO_RELATION;
 	}
 }
 
@@ -53,41 +62,40 @@ point2d middlePoint(const segment2d& s){
 }
 
 
-double cosAngle(const segment2d& a, const segment2d& b){
-	return ((a.b.x-a.a.x) * (b.b.x-b.a.x) + (a.b.y-a.a.y) * (b.b.y-b.a.y))/(distance(a.a, a.b)*distance(b.a, b.b));
+double cosAngle(const segment2d& first, const segment2d& second){
+	return ((first.b.x-first.a.x) * (second.b.x-second.a.x) + (first.b.y-first.a.y) * (second.b.y-second.a.y))/(distance(first.a, first.b)*distance(second.a, second.b));
 }
 
 
-int orientation(const segment2d& a, const segment2d& b, int precision){
-	return sign(determinant(a.b.x-a.a.x, a.b.y-a.a.y, b.b.x-b.a.x, b.b.y-b.a.y), precision);
+int orientation(const segment2d& first, const segment2d& second, int precision){
+	return sign(determinant(first.b.x-first.a.x, first.b.y-first.a.y, second.b.x-second.a.x, second.b.y-second.a.y), precision);
 }
 
-//Devuelve el punto de corte entre los 2 segmentos
-point2d intersectionPoint(const segment2d& a, const segment2d& b, int precision){
+point2d intersectionPoint(const segment2d& first, const segment2d& second, int precision){
 	point2d toRet;
 
-	double a1 = a.b.y - a.a.y;
-	double a2 = - a.b.x + a.a.x;
-	double a3 = b.b.y - b.a.y;
-	double a4 = - b.b.x + b.a.x;
+	double a1 = first.b.y - first.a.y;
+	double a2 = - first.b.x + first.a.x;
+	double a3 = second.b.y - second.a.y;
+	double a4 = - second.b.x + second.a.x;
 
 	double denom = determinant(a1,a2,a3,a4);
 
 	if (sign(denom, precision)==0){
-		throw parallelSegments(); // Son paralelas
+		throw parallelSegments(); // They are parallel
 	}
 
-	//Calcular la X
-	a1 = a.a.x*(a.b.y-a.a.y) - a.a.y*(a.b.x-a.a.x);
-	a3 = b.a.x*(b.b.y-b.a.y) - b.a.y*(b.b.x-b.a.x);
+	//Compute X
+	a1 = first.a.x*(first.b.y-first.a.y) - first.a.y*(first.b.x-first.a.x);
+	a3 = second.a.x*(second.b.y-second.a.y) - second.a.y*(second.b.x-second.a.x);
 
 	toRet.x = determinant(a1,a2,a3,a4) / denom;
 
-	//Calculamos la Y
-	a1 = a.b.y - a.a.y;
-	a2 = a.a.x*(a.b.y-a.a.y) - a.a.y*(a.b.x-a.a.x);
-	a3 = b.b.y - b.a.y;
-	a4 = b.a.x*(b.b.y-b.a.y) - b.a.y*(b.b.x-b.a.x);
+	//Compute Y
+	a1 = first.b.y - first.a.y;
+	a2 = first.a.x*(first.b.y-first.a.y) - first.a.y*(first.b.x-first.a.x);
+	a3 = second.b.y - second.a.y;
+	a4 = second.a.x*(second.b.y-second.a.y) - second.a.y*(second.b.x-second.a.x);
 
 	toRet.y = determinant(a1,a2,a3,a4) / denom;
 
