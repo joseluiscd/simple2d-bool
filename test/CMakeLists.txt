@@ -9,4 +9,3 @@ endmacro(add_unit_test)
 
 add_unit_test(TriangleInclusion triangle_inclusion.cpp)
 add_unit_test(PolygonInclusion polygon_inclusion.cpp)
-add_unit_test(Diferencia diferencia.cpp)
