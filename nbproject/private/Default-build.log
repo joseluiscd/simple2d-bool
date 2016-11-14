@@ -1,0 +1,12 @@
+g++ -g -fPIC -std=c++11 -c math.cpp -o math.o
+g++ -g -fPIC -std=c++11 -c point.cpp -o point.o
+g++ -g -fPIC -std=c++11 -c segment.cpp -o segment.o
+g++ -g -fPIC -std=c++11 -c triangle.cpp -o triangle.o
+g++ -g -fPIC -std=c++11 -c polygon.cpp -o polygon.o
+g++ -g -fPIC -std=c++11 -c bool_polygon.cpp -o bool_polygon.o
+g++ -g -fPIC -std=c++11 -c loader_polygon.cpp -o loader_polygon.o
+g++ -g -fPIC -std=c++11 -c random_polygon.cpp -o random_polygon.o
+g++ -g -fPIC -std=c++11 -c dump_polygon.cpp -o dump_polygon.o
+g++ -g -fPIC -std=c++11 -c reconstruction.cpp -o reconstruction.o
+g++ -g -fPIC -std=c++11 -c main.cpp -o main.o
+g++ -g -std=c++11 math.o point.o segment.o triangle.o polygon.o bool_polygon.o loader_polygon.o random_polygon.o dump_polygon.o reconstruction.o main.o -o main
