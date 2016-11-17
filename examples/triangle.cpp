@@ -48,7 +48,7 @@ list<polygon2d* > triangulo(int iterations){
 
 int main(int argc, char* argv[]){
     if(argc!=2){
-        puts("Se requiere como argumento el número de iteraciones");
+        puts("Number of iteratiosn required.\n");
         exit(1);
     }
 
